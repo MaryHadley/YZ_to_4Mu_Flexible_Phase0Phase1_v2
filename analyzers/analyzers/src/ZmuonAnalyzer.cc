@@ -414,6 +414,10 @@ private:
    std::vector<double> inv4MuMass, big4MuEta, big4MuPhi, big4MuPt;
    
    std::vector<double> big4MuVtx;
+   std::vector<double> big4MuVtx_chi2;
+   std::vector<int> big4MuVtx_ndof;
+   std::vector<double> big4MuVtx_xpos, big4MuVtx_ypos, big4MuVtx_zpos;
+   std::vector<double> big4MuVtx_xposError, big4MuVtx_yposError, big4MuVtx_zposError;
    
    std::vector<int> eventHasZUpsiNTo4Mu_Count;
    
@@ -669,6 +673,15 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    tree->Branch("big4MuPhi", &big4MuPhi);
    tree->Branch("big4MuPt", &big4MuPt);
    
+   tree->Branch("big4MuVtx_chi2", &big4MuVtx_chi2);
+   tree->Branch("big4MuVtx_ndof", &big4MuVtx_ndof);
+   tree->Branch("big4MuVtx_xpos", &big4MuVtx_xpos);
+   tree->Branch("big4MuVtx_ypos", &big4MuVtx_ypos);
+   tree->Branch("big4MuVtx_zpos", &big4MuVtx_zpos);
+   tree->Branch("big4MuVtx_xposError", &big4MuVtx_xposError); //N.B. These will actually be the error SQUARED
+   tree->Branch("big4MuVtx_yposError", &big4MuVtx_yposError);
+   tree->Branch("big4MuVtx_zposError", &big4MuVtx_zposError);
+   
    //trigger matching variable
    tree->Branch("quadHasHowManyTrigMatches", &quadHasHowManyTrigMatches);
    
@@ -847,16 +860,18 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
   auto muonsHandle = iEvent.getHandle(muonsToken_);
   
   const edm::TriggerNames& trigNames = iEvent.triggerNames(*trigResultsHandle);
-  for(auto& pathName : paths_){
-    size_t pathIndex = getPathIndex(pathName,trigNames);
-    std::string pathNameWOVer = stripHLTVersionNr(pathName);
-    if(pathIndex>=trigNames.size()) std::cout <<" path "<<pathNameWOVer<<" not found in menu"<<std::endl;
-    else{
-      std::cout <<" path index "<<pathIndex << " "<<trigNames.triggerName(pathIndex)<<std::endl;
-      if(trigResultsHandle->accept(pathIndex)) std::cout <<" path "<<pathNameWOVer<<" passed"<<std::endl;
-      else std::cout <<" path "<<pathNameWOVer<<" failed"<<std::endl;
-    }
-    }
+  
+  //Commenting out this part to make running the code faster because all it does is print info to the screen
+  // for(auto& pathName : paths_){
+//     size_t pathIndex = getPathIndex(pathName,trigNames);
+//     std::string pathNameWOVer = stripHLTVersionNr(pathName);
+//     if(pathIndex>=trigNames.size()) std::cout <<" path "<<pathNameWOVer<<" not found in menu"<<std::endl;
+//     else{
+//       std::cout <<" path index "<<pathIndex << " "<<trigNames.triggerName(pathIndex)<<std::endl;
+//       if(trigResultsHandle->accept(pathIndex)) std::cout <<" path "<<pathNameWOVer<<" passed"<<std::endl;
+//       else std::cout <<" path "<<pathNameWOVer<<" failed"<<std::endl;
+//     }
+//     }
     
     
     //now we will look at the filters passed
@@ -872,7 +887,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
   
   //prescale column (only changes every lumisection)
   int prescaleColumn = hltConfig_.prescaleSet(iEvent,iSetup);
-  std::cout <<"prescale column "<<prescaleColumn<<std::endl;
+//  std::cout <<"prescale column "<<prescaleColumn<<std::endl;
+ //  if (prescaleColumn !=1){
+//     std::cout << "Dog" << std::endl;
+//   }
 
 
   // std::cout <<"checking muons "<<std::endl;
@@ -1009,6 +1027,15 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    big4MuEta.clear();
    big4MuPhi.clear();
    big4MuPt.clear();
+   
+   big4MuVtx_chi2.clear();
+   big4MuVtx_ndof.clear();
+   big4MuVtx_xpos.clear();
+   big4MuVtx_ypos.clear();
+   big4MuVtx_zpos.clear();
+   big4MuVtx_xposError.clear();
+   big4MuVtx_yposError.clear();
+   big4MuVtx_zposError.clear();
    
    lepton1_validHits.clear(); lepton2_validHits.clear(); lepton3_validHits.clear(); lepton4_validHits.clear();
 
@@ -2305,11 +2332,32 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 
                 if (vtx1234.isValid()) {
                    big4MuVtx.push_back(TMath::Prob(vtx1234.totalChiSquared(), int(vtx1234.degreesOfFreedom())));
-                
+                   big4MuVtx_chi2.push_back(vtx1234.totalChiSquared());
+                   std::cout << "vtx1234.totalChiSquared()  " << vtx1234.totalChiSquared() << std::endl;
+                   if (vtx1234.totalChiSquared() > 100){
+                     std::cout  << "WALRUS!" << std::endl; 
+                   }
+                   big4MuVtx_ndof.push_back(int(vtx1234.degreesOfFreedom()));
+                   std::cout << "int(vtx1234.degreesOfFreedom())  " << int(vtx1234.degreesOfFreedom()) << std::endl; 
+                   big4MuVtx_xpos.push_back(vtx1234.position().x());
+                   big4MuVtx_ypos.push_back(vtx1234.position().y());
+                   big4MuVtx_zpos.push_back(vtx1234.position().z());
+                   big4MuVtx_xposError.push_back(vtx1234.positionError().cxx());
+                   big4MuVtx_yposError.push_back(vtx1234.positionError().cyy());
+                   big4MuVtx_zposError.push_back(vtx1234.positionError().czz());
                 }
                 
-                else
+                else{
                    big4MuVtx.push_back(-1000.);
+                   big4MuVtx_chi2.push_back(-1000.);
+                   big4MuVtx_ndof.push_back(-1000.);
+                   big4MuVtx_xpos.push_back(-1000.);
+                   big4MuVtx_ypos.push_back(-1000.);
+                   big4MuVtx_zpos.push_back(-1000.);
+                   big4MuVtx_xposError.push_back(-1000.);
+                   big4MuVtx_yposError.push_back(-1000.);
+                   big4MuVtx_zposError.push_back(-1000.);
+                   }
                    
                    //more of the single mu stuff that is currently meaningless, maybe someday it will find its raison d'etre 
         //        TransientVertex vtx1; vtx1 = kalman_fitter.vertex(transient_tracks_muon1);
@@ -2355,6 +2403,11 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                   if (vtx12.isValid()) {
                     std::cout << "DEBUG 5" << std::endl;
                     dimuon1vtx_temp.push_back(TMath::Prob(vtx12.totalChiSquared(), int(vtx12.degreesOfFreedom())));
+                    std::cout << "vtx12.totalChiSquared()  " << vtx12.totalChiSquared() << std::endl;
+                    std::cout << "int(vtx12.degreesOfFreedom())  " << int(vtx12.degreesOfFreedom()) << std::endl; 
+                    if (int(vtx12.degreesOfFreedom()) != 1){
+                      std::cout << "CACTUS" << std::endl;
+                     }
                  //   std::cout << "DEBUG 5A" << std::endl;
                  //   std::cout << TMath::Prob(vtx12.totalChiSquared(), int(vtx12.degreesOfFreedom())) << std::endl;
                  
@@ -2941,7 +2994,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 
                 std::vector<string> temp_lepton1_trig_vec;
                 temp_lepton1_trig_vec.clear();
-                checkFilters(iM1->eta(), iM1->phi(), trigObjsUnpacked, filtersToCheck_ , temp_lepton1_trig_vec); 
+       //         checkFilters(iM1->eta(), iM1->phi(), trigObjsUnpacked, filtersToCheck_ , temp_lepton1_trig_vec); 
                // lepton1_trigger_filters.push_back(temp_lepton1_trig_vec); //FLAG to re-evaluate! 18 August 2022
                 
                 lepton1_eta                        .push_back(iM1->eta());
