@@ -420,6 +420,7 @@ private:
    std::vector<double> big4MuVtx_xposError, big4MuVtx_yposError, big4MuVtx_zposError;
    
    std::vector<int> eventHasZUpsiNTo4Mu_Count;
+   std::vector<int> eventDoesNotHaveZUpsiNTo4Mu_Count;
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -799,6 +800,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("mc_lumi_section", &mc_lumi_section);
    
    treemc->Branch("eventHasZUpsiNTo4Mu_Count", &eventHasZUpsiNTo4Mu_Count);
+   treemc->Branch("eventDoesNotHaveZUpsiNTo4Mu_Count", &eventDoesNotHaveZUpsiNTo4Mu_Count);
 
 }
 
@@ -1133,7 +1135,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    rho.clear();
    
    eventHasZUpsiNTo4Mu_Count.clear();
-   
+   eventDoesNotHaveZUpsiNTo4Mu_Count.clear();
    
  //  TrkWeightsRecoVtxTrks.clear();
    
@@ -3569,7 +3571,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
           if (TMath::Abs(gen_particle->daughter(j)->pdgId()) == MUON ) {
             Z_mu_daughter_counter++;
-            std::cout << "PLACEHOLDER 2" << std::endl; 
+ //           std::cout << "PLACEHOLDER 2" << std::endl; 
             std::cout << gen_particle->daughter(j)->status() << std::endl;
             truth_Zmuon_pt .push_back(gen_particle->daughter(j)->pt());
             truth_Zmuon_eta.push_back(gen_particle->daughter(j)->eta());
@@ -3599,6 +3601,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         eventHasZUpsiNTo4Mu = true;  
         eventHasZUpsiNTo4Mu_Count.push_back(eventHasZUpsiNTo4Mu);
 
+    }
+    if (!(eventHasZToMuMu && eventHasUpsiNToMuMu)){
+      std::cout << "eventHasZUpsiNTo4Mu: " << eventHasZUpsiNTo4Mu << std::endl;
+      eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
