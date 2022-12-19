@@ -3182,6 +3182,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     bool eventHasZUpsiNTo4Mu = false;
     std::cout << "eventHasZUpsiNTo4Mu initially is: " << eventHasZUpsiNTo4Mu << std::endl; 
     
+    
+    
 //    std::cout << "upsi_pt_found.size() initially:  " << upsi_pt_found.size() <<std::endl; //Mary added for testing 
     //QUESTION!: I probably just missed something, but is there a reason you don't fill the upsi_pt_found until line 953 (similar question for Z_pt_found). I guess I'm not sure what this loop 
     //is doing, you said it was a protection against the pythia weirdos (when pythia has a lot of things with similar pT/eta) but I'm not sure I'm understanding what's going on here
@@ -3223,6 +3225,23 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 //              }
 //            }
 //          }
+
+          if (TMath::Abs(gen_particle->pdgId()) == MUON){
+            bool muHasUpsi1Ancestor = false;
+            for (size_t k = 0; k < gen_particle->numberOfMothers(); k++){
+              if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI){
+                muHasUpsi1Ancestor = true;
+                std::cout << "muHasUpsi1Ancestor  " << muHasUpsi1Ancestor << std::endl;
+               }
+              for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
+                if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib0_1P){
+                  std::cout << "Another placeholder" << std::endl;
+                }
+              }
+            }
+            
+          }
+           
 
          
          
