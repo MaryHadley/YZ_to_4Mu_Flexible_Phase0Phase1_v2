@@ -422,6 +422,10 @@ private:
    std::vector<int> eventHasZUpsiNTo4Mu_Count;
    std::vector<int> eventDoesNotHaveZUpsiNTo4Mu_Count;
    
+   //Truth all muons section
+   std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
+   std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
+   
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
    
@@ -801,7 +805,17 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    
    treemc->Branch("eventHasZUpsiNTo4Mu_Count", &eventHasZUpsiNTo4Mu_Count);
    treemc->Branch("eventDoesNotHaveZUpsiNTo4Mu_Count", &eventDoesNotHaveZUpsiNTo4Mu_Count);
-
+   
+   //truth all muons section
+   treemc->Branch("truth_muon_pt", &truth_muon_pt);
+   treemc->Branch("truth_muon_eta", &truth_muon_eta);
+   treemc->Branch("truth_muon_phi", &truth_muon_phi);
+   treemc->Branch("truth_muHasUpsi1Ancestor", &truth_muHasUpsi1Ancestor);
+   treemc->Branch("truth_muHasZAncestor", &truth_muHasZAncestor);
+   treemc->Branch("truth_muHasChib0_1PAncestor", &truth_muHasChib0_1PAncestor);
+   treemc->Branch("truth_muHasChib1_1PAncestor", &truth_muHasChib1_1PAncestor);
+   treemc->Branch("truth_muHasChib2_1PAncestor", &truth_muHasChib2_1PAncestor);
+   
 }
 
 void ZmuonAnalyzer::beginRun(const edm::Run& run,const edm::EventSetup& setup)
@@ -1136,6 +1150,15 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    
    eventHasZUpsiNTo4Mu_Count.clear();
    eventDoesNotHaveZUpsiNTo4Mu_Count.clear();
+   
+   truth_muon_pt.clear();
+   truth_muon_eta.clear();
+   truth_muon_phi.clear();
+   truth_muHasZAncestor.clear();
+   truth_muHasUpsi1Ancestor.clear();
+   truth_muHasChib0_1PAncestor.clear();
+   truth_muHasChib1_1PAncestor.clear();
+   truth_muHasChib2_1PAncestor.clear();
    
  //  TrkWeightsRecoVtxTrks.clear();
    
@@ -3227,21 +3250,52 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 //          }
 
           if (TMath::Abs(gen_particle->pdgId()) == MUON){
+           // std::cout << "Mary Debug 0" << std::endl;
+            truth_muon_pt.push_back(gen_particle->pt());
+            truth_muon_eta.push_back(gen_particle->eta());
+            truth_muon_phi.push_back(gen_particle->phi());
+            //std::cout << "Mary Debug 1" << std::endl; 
+            
             bool muHasUpsi1Ancestor = false;
+            bool muHasZAncestor = false;
+            bool muHasChib0_1PAncestor = false;
+            bool muHasChib1_1PAncestor = false;
+            bool muHasChib2_1PAncestor = false;
             for (size_t k = 0; k < gen_particle->numberOfMothers(); k++){
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI){
                 muHasUpsi1Ancestor = true;
                 std::cout << "muHasUpsi1Ancestor  " << muHasUpsi1Ancestor << std::endl;
-               }
-              for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
-                if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib0_1P){
-                  std::cout << "Another placeholder" << std::endl;
+               
+                for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib0_1P){
+                    muHasChib0_1PAncestor = true;
+                    std::cout << "muHasChib0_1PAncestor  "<< muHasChib0_1PAncestor << std::endl;
+                  }
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib1_1P){
+                    muHasChib1_1PAncestor = true;
+                    std::cout << "muHasChib1_1PAncestor  " << muHasChib1_1PAncestor << std::endl;
+                  }
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib2_1P){
+                    muHasChib2_1PAncestor = true;
+                    std::cout << "muHasChib2_1PAncestor  " << muHasChib2_1PAncestor << std::endl;
+                  }
                 }
+              
+              }
+              if (TMath::Abs(gen_particle->mother(k)->pdgId()) == Z){
+                muHasZAncestor = true;
+                std::cout << "muHasZAncestor  " << muHasZAncestor << std::endl;
               }
             }
             
+            truth_muHasZAncestor.push_back(muHasZAncestor);
+            truth_muHasUpsi1Ancestor.push_back(muHasUpsi1Ancestor);
+            truth_muHasChib0_1PAncestor.push_back(muHasChib0_1PAncestor);
+            truth_muHasChib1_1PAncestor.push_back(muHasChib1_1PAncestor);
+            truth_muHasChib2_1PAncestor.push_back(muHasChib2_1PAncestor);
+             
+             
           }
-           
 
          
          
