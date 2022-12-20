@@ -427,7 +427,7 @@ private:
    std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
    std::vector<bool> truth_muHasUpsi2Ancestor, truth_muHasUpsi3Ancestor;
    std::vector<bool> truth_muHasUpsi1FromUpsi2Ancestor, truth_muHasUpsi1FromUpsi3Ancestor;
-   
+   std::vector<bool> truth_muHasUpsi2FromUpsi3Ancestor;
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -822,6 +822,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("truth_muHasUpsi3Ancestor", &truth_muHasUpsi3Ancestor);
    treemc->Branch("truth_muHasUpsi1FromUpsi2Ancestor", &truth_muHasUpsi1FromUpsi2Ancestor);
    treemc->Branch("truth_muHasUpsi1FromUpsi3Ancestor", &truth_muHasUpsi1FromUpsi3Ancestor);
+   treemc->Branch("truth_muHasUpsi2FromUpsi3Ancestor", &truth_muHasUpsi2FromUpsi3Ancestor);
    
 }
 
@@ -1170,6 +1171,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    truth_muHasUpsi3Ancestor.clear();
    truth_muHasUpsi1FromUpsi2Ancestor.clear();
    truth_muHasUpsi1FromUpsi3Ancestor.clear();
+   truth_muHasUpsi2FromUpsi3Ancestor.clear();
    
  //  TrkWeightsRecoVtxTrks.clear();
    
@@ -3336,7 +3338,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             truth_muHasUpsi3Ancestor.push_back(muHasUpsi3Ancestor);
             truth_muHasUpsi1FromUpsi2Ancestor.push_back(muHasUpsi1FromUpsi2Ancestor);
             truth_muHasUpsi1FromUpsi3Ancestor.push_back(muHasUpsi1FromUpsi3Ancestor);
-             
+            truth_muHasUpsi2FromUpsi3Ancestor.push_back(muHasUpsi2FromUpsi3Ancestor);
              
           }
 
