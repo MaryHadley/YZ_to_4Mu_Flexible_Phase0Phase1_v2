@@ -3279,6 +3279,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             bool muHasUpsi1FromUpsi2Ancestor = false;
             bool muHasUpsi1FromUpsi3Ancestor = false;
             bool muHasUpsi2FromUpsi3Ancestor = false;
+            bool muHasUpsi1FromUpsi2FromUpsi3Ancestor = false;
             
             for (size_t k = 0; k < gen_particle->numberOfMothers(); k++){
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI){
@@ -3301,6 +3302,14 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_2S){
                     muHasUpsi1FromUpsi2Ancestor = true;
                     std::cout << "muHasUpsi1FromUpsi2Ancestor  " << muHasUpsi1FromUpsi2Ancestor << std::endl;
+                    
+                    for (size_t m = 0; m < gen_particle->mother(k)->mother(l)->numberOfMothers(); m++){
+                      if (TMath::Abs(gen_particle->mother(k)->mother(l)->mother(m)->pdgId()) == UPSI_3S){
+                        muHasUpsi1FromUpsi2FromUpsi3Ancestor = true;
+                        std::cout << "muHasUpsi1FromUpsi2FromUpsi3Ancestor  " << muHasUpsi1FromUpsi2FromUpsi3Ancestor << std::endl; 
+                      }
+                    }
+                    
                   }
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_3S){
                     muHasUpsi1FromUpsi3Ancestor = true;
