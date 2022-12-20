@@ -425,6 +425,9 @@ private:
    //Truth all muons section
    std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
    std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
+   std::vector<bool> truth_muHasUpsi2Ancestor, truth_muHasUpsi3Ancestor;
+   std::vector<bool> truth_muHasUpsi1FromUpsi2Ancestor, truth_muHasUpsi1FromUpsi3Ancestor;
+   
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -815,6 +818,10 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("truth_muHasChib0_1PAncestor", &truth_muHasChib0_1PAncestor);
    treemc->Branch("truth_muHasChib1_1PAncestor", &truth_muHasChib1_1PAncestor);
    treemc->Branch("truth_muHasChib2_1PAncestor", &truth_muHasChib2_1PAncestor);
+   treemc->Branch("truth_muHasUpsi2Ancestor", &truth_muHasUpsi2Ancestor);
+   treemc->Branch("truth_muHasUpsi3Ancestor", &truth_muHasUpsi3Ancestor);
+   treemc->Branch("truth_muHasUpsi1FromUpsi2Ancestor", &truth_muHasUpsi1FromUpsi2Ancestor);
+   treemc->Branch("truth_muHasUpsi1FromUpsi3Ancestor", &truth_muHasUpsi1FromUpsi3Ancestor);
    
 }
 
@@ -1159,6 +1166,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    truth_muHasChib0_1PAncestor.clear();
    truth_muHasChib1_1PAncestor.clear();
    truth_muHasChib2_1PAncestor.clear();
+   truth_muHasUpsi2Ancestor.clear();
+   truth_muHasUpsi3Ancestor.clear();
+   truth_muHasUpsi1FromUpsi2Ancestor.clear();
+   truth_muHasUpsi1FromUpsi3Ancestor.clear();
    
  //  TrkWeightsRecoVtxTrks.clear();
    
@@ -3261,6 +3272,12 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             bool muHasChib0_1PAncestor = false;
             bool muHasChib1_1PAncestor = false;
             bool muHasChib2_1PAncestor = false;
+            bool muHasUpsi2Ancestor = false;
+            bool muHasUpsi3Ancestor = false;
+            bool muHasUpsi1FromUpsi2Ancestor = false;
+            bool muHasUpsi1FromUpsi3Ancestor = false;
+            bool muHasUpsi2FromUpsi3Ancestor = false;
+            
             for (size_t k = 0; k < gen_particle->numberOfMothers(); k++){
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI){
                 muHasUpsi1Ancestor = true;
@@ -3279,12 +3296,34 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                     muHasChib2_1PAncestor = true;
                     std::cout << "muHasChib2_1PAncestor  " << muHasChib2_1PAncestor << std::endl;
                   }
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_2S){
+                    muHasUpsi1FromUpsi2Ancestor = true;
+                    std::cout << "muHasUpsi1FromUpsi2Ancestor  " << muHasUpsi1FromUpsi2Ancestor << std::endl;
+                  }
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_3S){
+                    muHasUpsi1FromUpsi3Ancestor = true;
+                    std::cout << "muHasUpsi1FromUpsi3Ancestor  " << muHasUpsi1FromUpsi3Ancestor << std::endl;
+                  }
                 }
               
               }
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == Z){
                 muHasZAncestor = true;
                 std::cout << "muHasZAncestor  " << muHasZAncestor << std::endl;
+              }
+              if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI_2S){
+                muHasUpsi2Ancestor = true;
+                std::cout << "muHasUpsi2Ancestor  " << muHasUpsi2Ancestor << std::endl;
+                for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
+                  if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_3S){
+                    muHasUpsi2FromUpsi3Ancestor = true;
+                    std::cout << "muHasUpsi2FromUpsi3Ancestor  " << muHasUpsi2FromUpsi3Ancestor << std::endl;
+                  }
+                }
+              }
+              if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI_3S){
+                muHasUpsi3Ancestor = true;
+                std::cout << "muHasUpsi3Ancestor  " << muHasUpsi3Ancestor << std::endl;
               }
             }
             
@@ -3293,6 +3332,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             truth_muHasChib0_1PAncestor.push_back(muHasChib0_1PAncestor);
             truth_muHasChib1_1PAncestor.push_back(muHasChib1_1PAncestor);
             truth_muHasChib2_1PAncestor.push_back(muHasChib2_1PAncestor);
+            truth_muHasUpsi2Ancestor.push_back(muHasUpsi2Ancestor);
+            truth_muHasUpsi3Ancestor.push_back(muHasUpsi3Ancestor);
+            truth_muHasUpsi1FromUpsi2Ancestor.push_back(muHasUpsi1FromUpsi2Ancestor);
+            truth_muHasUpsi1FromUpsi3Ancestor.push_back(muHasUpsi1FromUpsi3Ancestor);
              
              
           }
