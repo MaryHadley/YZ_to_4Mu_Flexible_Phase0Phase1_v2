@@ -427,6 +427,10 @@ private:
    std::vector<int> eventHasUpsi3ToMuMu_Count;
    std::vector<int> eventHasZToMuMu_Count;
    
+   std::vector<int> eventHasZUpsi1To4Mu_Count;
+   std::vector<int> eventHasZUpsi2To4Mu_Count;
+   std::vector<int> eventHasZUpsi3To4Mu_Count;
+   
    //Truth all muons section
    std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
    std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
@@ -820,6 +824,10 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("eventHasUpsi3ToMuMu_Count", &eventHasUpsi3ToMuMu_Count);
    treemc->Branch("eventHasZToMuMu_Count", &eventHasZToMuMu_Count);
    
+   treemc->Branch("eventHasZUpsi1To4Mu_Count", &eventHasZUpsi1To4Mu_Count);
+   treemc->Branch("eventHasZUpsi2To4Mu_Count", &eventHasZUpsi2To4Mu_Count);
+   treemc->Branch("eventHasZUpsi3To4Mu_Count", &eventHasZUpsi3To4Mu_Count);
+   
    //truth all muons section
    treemc->Branch("truth_muon_pt", &truth_muon_pt);
    treemc->Branch("truth_muon_eta", &truth_muon_eta);
@@ -1174,6 +1182,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    eventHasUpsi2ToMuMu_Count.clear();
    eventHasUpsi3ToMuMu_Count.clear();
    eventHasZToMuMu_Count.clear();
+   
+   eventHasZUpsi1To4Mu_Count.clear();
+   eventHasZUpsi2To4Mu_Count.clear();
+   eventHasZUpsi3To4Mu_Count.clear();
    
    truth_muon_pt.clear();
    truth_muon_eta.clear();
@@ -3244,6 +3256,15 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     bool eventHasUpsi3ToMuMu = false;
     std::cout << "eventHasUpsi3ToMuMu initially is: " << eventHasUpsi3ToMuMu << std::endl; 
     
+    bool eventHasZUpsi1To4Mu = false;
+    std::cout << "eventHasZUpsi1To4Mu initially is: " << eventHasZUpsi1To4Mu << std::endl;
+    
+    bool eventHasZUpsi2To4Mu = false;
+    std::cout << "eventHasZUpsi2To4Mu initially is: " << eventHasZUpsi2To4Mu << std::endl;
+    
+    bool eventHasZUpsi3To4Mu = false;
+    std::cout << "eventHasZUpsi3To4Mu initially is: " << eventHasZUpsi3To4Mu << std::endl; 
+    
     
     
 //    std::cout << "upsi_pt_found.size() initially:  " << upsi_pt_found.size() <<std::endl; //Mary added for testing 
@@ -3763,6 +3784,22 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         eventHasZUpsiNTo4Mu_Count.push_back(eventHasZUpsiNTo4Mu);
 
     }
+    
+    if (eventHasZToMuMu && eventHasUpsi1ToMuMu){
+        eventHasZUpsi1To4Mu = true;
+        eventHasZUpsi1To4Mu_Count.push_back(eventHasZUpsi1To4Mu);
+    }
+    
+    
+    if (eventHasZToMuMu && eventHasUpsi2ToMuMu){
+        eventHasZUpsi2To4Mu = true;
+        eventHasZUpsi2To4Mu_Count.push_back(eventHasZUpsi2To4Mu);
+     }
+     
+     if (eventHasZToMuMu && eventHasUpsi3ToMuMu){
+        eventHasZUpsi3To4Mu = true;
+        eventHasZUpsi3To4Mu_Count.push_back(eventHasZUpsi3To4Mu); 
+     }
     
     
     if (!(eventHasZToMuMu && eventHasUpsiNToMuMu)){
