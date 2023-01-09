@@ -3239,31 +3239,31 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     Z_pt_found.clear();
     
     bool eventHasZToMuMu = false;
-    std::cout << "eventHasZToMuMu initially is: " << eventHasZToMuMu << std::endl; 
+ //   std::cout << "eventHasZToMuMu initially is: " << eventHasZToMuMu << std::endl; 
     
     bool eventHasUpsiNToMuMu = false;
-    std::cout << "eventHasUpsiNToMuMu initially is: " << eventHasUpsiNToMuMu << std::endl; 
+//    std::cout << "eventHasUpsiNToMuMu initially is: " << eventHasUpsiNToMuMu << std::endl; 
     
     bool eventHasZUpsiNTo4Mu = false;
-    std::cout << "eventHasZUpsiNTo4Mu initially is: " << eventHasZUpsiNTo4Mu << std::endl;
+//    std::cout << "eventHasZUpsiNTo4Mu initially is: " << eventHasZUpsiNTo4Mu << std::endl;
     
     bool eventHasUpsi1ToMuMu = false;
-    std::cout << "eventHasUpsi1ToMuMu initially is: " << eventHasUpsi1ToMuMu << std::endl;
+//    std::cout << "eventHasUpsi1ToMuMu initially is: " << eventHasUpsi1ToMuMu << std::endl;
     
     bool eventHasUpsi2ToMuMu = false;
-    std::cout << "eventHasUpsi2ToMuMu initially is: " << eventHasUpsi2ToMuMu << std::endl;
+//    std::cout << "eventHasUpsi2ToMuMu initially is: " << eventHasUpsi2ToMuMu << std::endl;
     
     bool eventHasUpsi3ToMuMu = false;
-    std::cout << "eventHasUpsi3ToMuMu initially is: " << eventHasUpsi3ToMuMu << std::endl; 
+//    std::cout << "eventHasUpsi3ToMuMu initially is: " << eventHasUpsi3ToMuMu << std::endl; 
     
     bool eventHasZUpsi1To4Mu = false;
-    std::cout << "eventHasZUpsi1To4Mu initially is: " << eventHasZUpsi1To4Mu << std::endl;
+//    std::cout << "eventHasZUpsi1To4Mu initially is: " << eventHasZUpsi1To4Mu << std::endl;
     
     bool eventHasZUpsi2To4Mu = false;
-    std::cout << "eventHasZUpsi2To4Mu initially is: " << eventHasZUpsi2To4Mu << std::endl;
+//    std::cout << "eventHasZUpsi2To4Mu initially is: " << eventHasZUpsi2To4Mu << std::endl;
     
     bool eventHasZUpsi3To4Mu = false;
-    std::cout << "eventHasZUpsi3To4Mu initially is: " << eventHasZUpsi3To4Mu << std::endl; 
+//    std::cout << "eventHasZUpsi3To4Mu initially is: " << eventHasZUpsi3To4Mu << std::endl; 
     
     
     
@@ -3331,36 +3331,36 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             for (size_t k = 0; k < gen_particle->numberOfMothers(); k++){
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI){
                 muHasUpsi1Ancestor = true;
-                std::cout << "muHasUpsi1Ancestor  " << muHasUpsi1Ancestor << std::endl;
+             //   std::cout << "muHasUpsi1Ancestor  " << muHasUpsi1Ancestor << std::endl;
                
                 for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib0_1P){
                     muHasChib0_1PAncestor = true;
-                    std::cout << "muHasChib0_1PAncestor  "<< muHasChib0_1PAncestor << std::endl;
+                   // std::cout << "muHasChib0_1PAncestor  "<< muHasChib0_1PAncestor << std::endl;
                   }
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib1_1P){
                     muHasChib1_1PAncestor = true;
-                    std::cout << "muHasChib1_1PAncestor  " << muHasChib1_1PAncestor << std::endl;
+                   // std::cout << "muHasChib1_1PAncestor  " << muHasChib1_1PAncestor << std::endl;
                   }
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == Chib2_1P){
                     muHasChib2_1PAncestor = true;
-                    std::cout << "muHasChib2_1PAncestor  " << muHasChib2_1PAncestor << std::endl;
+                  //  std::cout << "muHasChib2_1PAncestor  " << muHasChib2_1PAncestor << std::endl;
                   }
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_2S){
                     muHasUpsi1FromUpsi2Ancestor = true;
-                    std::cout << "muHasUpsi1FromUpsi2Ancestor  " << muHasUpsi1FromUpsi2Ancestor << std::endl;
+                   // std::cout << "muHasUpsi1FromUpsi2Ancestor  " << muHasUpsi1FromUpsi2Ancestor << std::endl;
                     
                     for (size_t m = 0; m < gen_particle->mother(k)->mother(l)->numberOfMothers(); m++){
                       if (TMath::Abs(gen_particle->mother(k)->mother(l)->mother(m)->pdgId()) == UPSI_3S){
                         muHasUpsi1FromUpsi2FromUpsi3Ancestor = true;
-                        std::cout << "muHasUpsi1FromUpsi2FromUpsi3Ancestor  " << muHasUpsi1FromUpsi2FromUpsi3Ancestor << std::endl; 
+                       // std::cout << "muHasUpsi1FromUpsi2FromUpsi3Ancestor  " << muHasUpsi1FromUpsi2FromUpsi3Ancestor << std::endl; 
                       }
                     }
                     
                   }
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_3S){
                     muHasUpsi1FromUpsi3Ancestor = true;
-                    std::cout << "muHasUpsi1FromUpsi3Ancestor  " << muHasUpsi1FromUpsi3Ancestor << std::endl;
+                   // std::cout << "muHasUpsi1FromUpsi3Ancestor  " << muHasUpsi1FromUpsi3Ancestor << std::endl;
                   }
                 }
               
@@ -3371,17 +3371,17 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
               }
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI_2S){
                 muHasUpsi2Ancestor = true;
-                std::cout << "muHasUpsi2Ancestor  " << muHasUpsi2Ancestor << std::endl;
+               // std::cout << "muHasUpsi2Ancestor  " << muHasUpsi2Ancestor << std::endl;
                 for (size_t l = 0; l < gen_particle->mother(k)->numberOfMothers(); l++){
                   if (TMath::Abs(gen_particle->mother(k)->mother(l)->pdgId()) == UPSI_3S){
                     muHasUpsi2FromUpsi3Ancestor = true;
-                    std::cout << "muHasUpsi2FromUpsi3Ancestor  " << muHasUpsi2FromUpsi3Ancestor << std::endl;
+                   // std::cout << "muHasUpsi2FromUpsi3Ancestor  " << muHasUpsi2FromUpsi3Ancestor << std::endl;
                   }
                 }
               }
               if (TMath::Abs(gen_particle->mother(k)->pdgId()) == UPSI_3S){
                 muHasUpsi3Ancestor = true;
-                std::cout << "muHasUpsi3Ancestor  " << muHasUpsi3Ancestor << std::endl;
+              //  std::cout << "muHasUpsi3Ancestor  " << muHasUpsi3Ancestor << std::endl;
               }
             }
             
@@ -3402,20 +3402,20 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
          
          
          
-         if (gen_particle->pdgId() == UPSI_2S ||gen_particle->pdgId() == UPSI_3S){
-            std::cout << "FOUND UPSI_2S or UPSI_3S" << std::endl;
-            std::cout << gen_particle->pdgId() << std::endl;
-            std::cout << gen_particle->mass() << std::endl;
-           // std::cout << gen_particle->daughter(0)->pdgId() << std::endl;
-           // std::cout << gen_particle->daughter(1)->pdgId() << std::endl;
-          //  std::cout << gen_particle->daughter(2)->pdgId() << std::endl;
-          //test to induce new compilation
-        }
+        //  if (gen_particle->pdgId() == UPSI_2S ||gen_particle->pdgId() == UPSI_3S){
+//             std::cout << "FOUND UPSI_2S or UPSI_3S" << std::endl;
+//             std::cout << gen_particle->pdgId() << std::endl;
+//             std::cout << gen_particle->mass() << std::endl;
+//            // std::cout << gen_particle->daughter(0)->pdgId() << std::endl;
+//            // std::cout << gen_particle->daughter(1)->pdgId() << std::endl;
+//           //  std::cout << gen_particle->daughter(2)->pdgId() << std::endl;
+//           //test to induce new compilation
+//         }
         
          //UPSI state
          if (gen_particle->pdgId() == UPSI){
-            std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
-            std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
+          //  std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
+          //  std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
             
             int upsi_mu_daughter_counter = 0;
             for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
@@ -3466,23 +3466,23 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
          //Chib0_1P state
          if (gen_particle->pdgId() == Chib0_1P){
-           std::cout << "Found Chib0_1P" << std::endl;
+        //   std::cout << "Found Chib0_1P" << std::endl;
            for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
              if (gen_particle->daughter(j)->pdgId() == UPSI){
-                std::cout << "Found upsi 1 from Chib0_1P" << std::endl;
+             //   std::cout << "Found upsi 1 from Chib0_1P" << std::endl;
                 int Chib0_1P_granddaughter_counter = 0;
                 for (size_t k =0; k < gen_particle->daughter(j)->numberOfDaughters(); k++){
                  // std::cout << "ANOTHER PLACEHOLDER" << std::endl;
                    
                   if (TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) == MUON){
                     Chib0_1P_granddaughter_counter++;
-                    std::cout << "FILL muons that are granddaughters of Chib0_1P here" << std::endl;
+                 //   std::cout << "FILL muons that are granddaughters of Chib0_1P here" << std::endl;
                     truth_Chib0_1P_UPSI_muon_pt.push_back(gen_particle->daughter(j)->daughter(k)->pt());
                     truth_Chib0_1P_UPSI_muon_eta.push_back(gen_particle->daughter(j)->daughter(k)->eta());
                     truth_Chib0_1P_UPSI_muon_phi.push_back(gen_particle->daughter(j)->daughter(k)->phi());
                     
                     if (Chib0_1P_granddaughter_counter == 1){
-                       std::cout << "Fill Chib0_1P, Upsi info here" << std::endl; 
+                   //    std::cout << "Fill Chib0_1P, Upsi info here" << std::endl; 
                        truth_Chib0_1P_pt.push_back(gen_particle->pt());
                        truth_Chib0_1P_eta.push_back(gen_particle->eta());
                        truth_Chib0_1P_phi.push_back(gen_particle->phi());
@@ -3500,7 +3500,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 }
              }
              if (gen_particle->daughter(j)->pdgId() == photon){
-                std::cout << "Found photon from Chib0_1P" << std::endl; 
+              //  std::cout << "Found photon from Chib0_1P" << std::endl; 
                 truth_Chib0_1P_photon_pt.push_back(gen_particle->daughter(j)->pt());
                 truth_Chib0_1P_photon_eta.push_back(gen_particle->daughter(j)->eta());
                 truth_Chib0_1P_photon_phi.push_back(gen_particle->daughter(j)->phi());
@@ -3513,23 +3513,23 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
          
          //Chib1_1P state
          if (gen_particle->pdgId() == Chib1_1P){
-           std::cout << "Found Chib1_1P" << std::endl;
+    //       std::cout << "Found Chib1_1P" << std::endl;
            for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
              if (gen_particle->daughter(j)->pdgId() == UPSI){
-                std::cout << "Found upsi 1 from Chib1_1P" << std::endl;
+         //       std::cout << "Found upsi 1 from Chib1_1P" << std::endl;
                 int Chib1_1P_granddaughter_counter = 0;
                 for (size_t k =0; k < gen_particle->daughter(j)->numberOfDaughters(); k++){
                  // std::cout << "ANOTHER PLACEHOLDER" << std::endl;
                    
                   if (TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) == MUON){
                     Chib1_1P_granddaughter_counter++;
-                    std::cout << "FILL muons that are granddaughters of Chib1_1P here" << std::endl;
+                  //  std::cout << "FILL muons that are granddaughters of Chib1_1P here" << std::endl;
                     truth_Chib1_1P_UPSI_muon_pt.push_back(gen_particle->daughter(j)->daughter(k)->pt());
                     truth_Chib1_1P_UPSI_muon_eta.push_back(gen_particle->daughter(j)->daughter(k)->eta());
                     truth_Chib1_1P_UPSI_muon_phi.push_back(gen_particle->daughter(j)->daughter(k)->phi());
                     
                     if (Chib1_1P_granddaughter_counter == 1){
-                       std::cout << "Fill Chib1_1P, Upsi info here" << std::endl; 
+                    //   std::cout << "Fill Chib1_1P, Upsi info here" << std::endl; 
                        truth_Chib1_1P_pt.push_back(gen_particle->pt());
                        truth_Chib1_1P_eta.push_back(gen_particle->eta());
                        truth_Chib1_1P_phi.push_back(gen_particle->phi());
@@ -3547,7 +3547,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 }
              }
              if (gen_particle->daughter(j)->pdgId() == photon){
-                std::cout << "Found photon from Chib1_1P" << std::endl; 
+              //  std::cout << "Found photon from Chib1_1P" << std::endl; 
                 truth_Chib1_1P_photon_pt.push_back(gen_particle->daughter(j)->pt());
                 truth_Chib1_1P_photon_eta.push_back(gen_particle->daughter(j)->eta());
                 truth_Chib1_1P_photon_phi.push_back(gen_particle->daughter(j)->phi());
@@ -3560,30 +3560,30 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
          
          //Chib2_1P state
          if (gen_particle->pdgId() == Chib2_1P){
-           std::cout << "Found Chib2_1P" << std::endl;
+       //    std::cout << "Found Chib2_1P" << std::endl;
            for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
              if (gen_particle->daughter(j)->pdgId() == UPSI){
-                std::cout << "Found upsi 1 from Chib2_1P" << std::endl;
+              //  std::cout << "Found upsi 1 from Chib2_1P" << std::endl;
                 int Chib2_1P_granddaughter_counter = 0;
                 for (size_t k =0; k < gen_particle->daughter(j)->numberOfDaughters(); k++){
                  // std::cout << "ANOTHER PLACEHOLDER" << std::endl;
                 
                  //Comments to  better understand what is happening in this sample
-                 if (TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) != MUON){
-                    std::cout << "Upsi 1 daughter is not a muon" << std::endl;
-                    std::cout << TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) << std::endl;
-                 }
+                //  if (TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) != MUON){
+//                     std::cout << "Upsi 1 daughter is not a muon" << std::endl;
+//                     std::cout << TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) << std::endl;
+//                  }
                  
                  
                   if (TMath::Abs(gen_particle->daughter(j)->daughter(k)->pdgId()) == MUON){
                     Chib2_1P_granddaughter_counter++;
-                    std::cout << "FILL muons that are granddaughters of Chib2_1P here" << std::endl;
+                 //   std::cout << "FILL muons that are granddaughters of Chib2_1P here" << std::endl;
                     truth_Chib2_1P_UPSI_muon_pt.push_back(gen_particle->daughter(j)->daughter(k)->pt());
                     truth_Chib2_1P_UPSI_muon_eta.push_back(gen_particle->daughter(j)->daughter(k)->eta());
                     truth_Chib2_1P_UPSI_muon_phi.push_back(gen_particle->daughter(j)->daughter(k)->phi());
                     
                     if (Chib2_1P_granddaughter_counter == 1){
-                       std::cout << "Fill Chib2_1P, Upsi info here" << std::endl; 
+                    //   std::cout << "Fill Chib2_1P, Upsi info here" << std::endl; 
                        truth_Chib2_1P_pt.push_back(gen_particle->pt());
                        truth_Chib2_1P_eta.push_back(gen_particle->eta());
                        truth_Chib2_1P_phi.push_back(gen_particle->phi());
@@ -3601,7 +3601,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 }
              }
              if (gen_particle->daughter(j)->pdgId() == photon){
-                std::cout << "Found photon from Chib2_1P" << std::endl; 
+              //  std::cout << "Found photon from Chib2_1P" << std::endl; 
                 truth_Chib2_1P_photon_pt.push_back(gen_particle->daughter(j)->pt());
                 truth_Chib2_1P_photon_eta.push_back(gen_particle->daughter(j)->eta());
                 truth_Chib2_1P_photon_phi.push_back(gen_particle->daughter(j)->phi());
@@ -3616,8 +3616,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
          
          //UPSI_2S state 
          if (gen_particle->pdgId() == UPSI_2S){
-            std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
-            std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
+         //   std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
+          //  std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
             
             int upsi2_mu_daughter_counter = 0;
             for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
@@ -3651,8 +3651,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
         //UPSI_3S state
          if (gen_particle->pdgId() == UPSI_3S){
-            std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
-            std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
+         //   std::cout << "gen_particle->pdgId() " << gen_particle->pdgId() << std::endl;
+         //  std::cout << "gen_particle->status() " << gen_particle->status() << std::endl;
             
             int upsi3_mu_daughter_counter = 0;
             for (size_t j = 0; j < gen_particle->numberOfDaughters(); ++j) {
@@ -3753,7 +3753,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
           if (TMath::Abs(gen_particle->daughter(j)->pdgId()) == MUON ) {
             Z_mu_daughter_counter++;
  //           std::cout << "PLACEHOLDER 2" << std::endl; 
-            std::cout << gen_particle->daughter(j)->status() << std::endl;
+          //  std::cout << gen_particle->daughter(j)->status() << std::endl;
             truth_Zmuon_pt .push_back(gen_particle->daughter(j)->pt());
             truth_Zmuon_eta.push_back(gen_particle->daughter(j)->eta());
             truth_Zmuon_phi.push_back(gen_particle->daughter(j)->phi());
@@ -3779,7 +3779,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       }
     
     if (eventHasZToMuMu && eventHasUpsiNToMuMu){
-        std::cout << "eventHasZToMuMu && eventHasUpsiNToMuMu" << std::endl; 
+     //   std::cout << "eventHasZToMuMu && eventHasUpsiNToMuMu" << std::endl; 
         eventHasZUpsiNTo4Mu = true;  
         eventHasZUpsiNTo4Mu_Count.push_back(eventHasZUpsiNTo4Mu);
 
@@ -3803,7 +3803,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     
     
     if (!(eventHasZToMuMu && eventHasUpsiNToMuMu)){
-      std::cout << "eventHasZUpsiNTo4Mu: " << eventHasZUpsiNTo4Mu << std::endl;
+     // std::cout << "eventHasZUpsiNTo4Mu: " << eventHasZUpsiNTo4Mu << std::endl;
       eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
     
