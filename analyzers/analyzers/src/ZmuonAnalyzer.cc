@@ -422,6 +422,8 @@ private:
    std::vector<int> eventHasZUpsiNTo4Mu_Count;
    std::vector<int> eventDoesNotHaveZUpsiNTo4Mu_Count;
    
+   std::vector<int> eventHasUpsi1ToMuMu_Count;
+   
    //Truth all muons section
    std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
    std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
@@ -810,6 +812,8 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("eventHasZUpsiNTo4Mu_Count", &eventHasZUpsiNTo4Mu_Count);
    treemc->Branch("eventDoesNotHaveZUpsiNTo4Mu_Count", &eventDoesNotHaveZUpsiNTo4Mu_Count);
    
+   treemc->Branch("eventHasUpsi1ToMuMu_Count", &eventHasUpsi1ToMuMu_Count);
+   
    //truth all muons section
    treemc->Branch("truth_muon_pt", &truth_muon_pt);
    treemc->Branch("truth_muon_eta", &truth_muon_eta);
@@ -1159,6 +1163,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    
    eventHasZUpsiNTo4Mu_Count.clear();
    eventDoesNotHaveZUpsiNTo4Mu_Count.clear();
+   
+   eventHasUpsi1ToMuMu_Count.clear();
    
    truth_muon_pt.clear();
    truth_muon_eta.clear();
@@ -3218,7 +3224,16 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     std::cout << "eventHasUpsiNToMuMu initially is: " << eventHasUpsiNToMuMu << std::endl; 
     
     bool eventHasZUpsiNTo4Mu = false;
-    std::cout << "eventHasZUpsiNTo4Mu initially is: " << eventHasZUpsiNTo4Mu << std::endl; 
+    std::cout << "eventHasZUpsiNTo4Mu initially is: " << eventHasZUpsiNTo4Mu << std::endl;
+    
+    bool eventHasUpsi1ToMuMu = false;
+    std::cout << "eventHasUpsi1ToMuMu initially is: " << eventHasUpsi1ToMuMu << std::endl;
+    
+    bool eventHasUpsi2ToMuMu = false;
+    std::cout << "eventHasUpsi2ToMuMu initially is: " << eventHasUpsi2ToMuMu << std::endl;
+    
+    bool eventHasUpsi3ToMuMu = false;
+    std::cout << "eventHasUpsi3ToMuMu initially is: " << eventHasUpsi3ToMuMu << std::endl; 
     
     
     
@@ -3409,6 +3424,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 
                 if (upsi_mu_daughter_counter == 2) {
                   eventHasUpsiNToMuMu = true; 
+                  eventHasUpsi1ToMuMu = true;
+                  eventHasUpsi1ToMuMu_Count.push_back(eventHasUpsi1ToMuMu);
                 }
              }
          }
