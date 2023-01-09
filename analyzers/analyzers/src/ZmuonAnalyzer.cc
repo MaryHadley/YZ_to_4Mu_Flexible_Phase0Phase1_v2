@@ -423,6 +423,9 @@ private:
    std::vector<int> eventDoesNotHaveZUpsiNTo4Mu_Count;
    
    std::vector<int> eventHasUpsi1ToMuMu_Count;
+   std::vector<int> eventHasUpsi2ToMuMu_Count;
+   std::vector<int> eventHasUpsi3ToMuMu_Count;
+   std::vector<int> eventHasZToMuMu_Count;
    
    //Truth all muons section
    std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
@@ -813,6 +816,9 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("eventDoesNotHaveZUpsiNTo4Mu_Count", &eventDoesNotHaveZUpsiNTo4Mu_Count);
    
    treemc->Branch("eventHasUpsi1ToMuMu_Count", &eventHasUpsi1ToMuMu_Count);
+   treemc->Branch("eventHasUpsi2ToMuMu_Count", &eventHasUpsi2ToMuMu_Count);
+   treemc->Branch("eventHasUpsi3ToMuMu_Count", &eventHasUpsi3ToMuMu_Count);
+   treemc->Branch("eventHasZToMuMu_Count", &eventHasZToMuMu_Count);
    
    //truth all muons section
    treemc->Branch("truth_muon_pt", &truth_muon_pt);
@@ -1165,6 +1171,9 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    eventDoesNotHaveZUpsiNTo4Mu_Count.clear();
    
    eventHasUpsi1ToMuMu_Count.clear();
+   eventHasUpsi2ToMuMu_Count.clear();
+   eventHasUpsi3ToMuMu_Count.clear();
+   eventHasZToMuMu_Count.clear();
    
    truth_muon_pt.clear();
    truth_muon_eta.clear();
@@ -3612,6 +3621,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 
                  if (upsi2_mu_daughter_counter == 2) {
                    eventHasUpsiNToMuMu = true;
+                   eventHasUpsi2ToMuMu = true;
+                   eventHasUpsi2ToMuMu_Count.push_back(eventHasUpsi2ToMuMu);
                  }
              }
          }
@@ -3643,7 +3654,9 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 
                 }
                  if (upsi3_mu_daughter_counter == 2) {
-                   eventHasUpsiNToMuMu = true; 
+                   eventHasUpsiNToMuMu = true;
+                   eventHasUpsi3ToMuMu = true;
+                   eventHasUpsi3ToMuMu_Count.push_back(eventHasUpsi3ToMuMu); 
                  }
              }
          }
@@ -3734,6 +3747,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
            }
            if (Z_mu_daughter_counter == 2){
              eventHasZToMuMu = true;
+             eventHasZToMuMu_Count.push_back(eventHasZToMuMu);
            }
           }
         }
@@ -3749,10 +3763,13 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         eventHasZUpsiNTo4Mu_Count.push_back(eventHasZUpsiNTo4Mu);
 
     }
+    
+    
     if (!(eventHasZToMuMu && eventHasUpsiNToMuMu)){
       std::cout << "eventHasZUpsiNTo4Mu: " << eventHasZUpsiNTo4Mu << std::endl;
       eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
+    
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
  //   std::cout << "Upsi_to_fill_count is:" << Upsi_to_fill_count << std::endl;

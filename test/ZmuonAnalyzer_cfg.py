@@ -106,18 +106,18 @@ process.source = cms.Source("PoolSource",
                                            #"file:MC_DPS_2016_YZ_00623223-2B20-AB42-A456-670F9B3875D5.root", 
                                           # "file:MC_DPS_2016_APV_24653D5E-1FF7-274F-A4B8-BB3E4426E612.root",
                                            #"file:MC_DPS_2017_YZ_070452D8-AA0E-7345-B1A4-F5443D1227C1.root",
-                                          "file:MC_DPS_2018_YZ_04A4F969-2F02-F24D-9BA7-2FAB6D708CB6.root",
+                                          #"file:MC_DPS_2018_YZ_04A4F969-2F02-F24D-9BA7-2FAB6D708CB6.root",
                                            #'file:14907725-2B14-B245-B076-5B04C5C36D55.root',
       #                                     'file:Y3S3S11_Z_4Mu_HO_SPS_MiniAOD.root',
                                            #'file:Run2018D_testFiles/file1_BB04A3C7-E0C0-EF46-B787-3C6095D1465A.root',
                                            #'file:Run2016F/5994D9C1-4D6A-0844-B47F-B33105292625.root',
                                           # 'file:Run2017B/0D8C151B-9BC1-E648-8959-4110DF702EBF.root',
-                                          #'/store/data/Run2017D/DoubleMuon/MINIAOD/09Aug2019_UL2017-v1/260000/04D869DE-CA0D-7D41-A77F-BC71245E2FF4.root', #Call this 2017_File_1
-                                          # '/store/data/Run2016G/DoubleMuon/MINIAOD/21Feb2020_UL2016-v1/230000/0494EFE4-63FD-2448-8E9E-D7C2E5C1E1BE.root', #Call this 2016_File_2 #this one was having trouble being read, trying another (see directly below)
+                                         # '/store/data/Run2017D/DoubleMuon/MINIAOD/09Aug2019_UL2017-v1/260000/04D869DE-CA0D-7D41-A77F-BC71245E2FF4.root', #Call this 2017_File_1
+                                           #'/store/data/Run2016G/DoubleMuon/MINIAOD/21Feb2020_UL2016-v1/230000/0494EFE4-63FD-2448-8E9E-D7C2E5C1E1BE.root', #Call this 2016_File_2 #this one was having trouble being read, trying another (see directly below)
                                          # '/store/data/Run2016G/DoubleMuon/MINIAOD/21Feb2020_UL2016-v1/230000/0088A811-11AC-F54A-84F0-F68127844470.root', #Call this 2016_File_1
                                          #'file:RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000-42BA2638-E9C6-E811-9BEB-001A649D47FD.root', #call this 2016_ZZto4L_File1
                                          #'file:RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000-122F32C7-DD31-1143-96EB-38BC1B7BA376.root',
-                                        # '/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/10000/0E131CB3-1C94-FD4F-B2AB-50CE71932513.root',
+                                         #'/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/10000/0E131CB3-1C94-FD4F-B2AB-50CE71932513.root',
 #                                         '/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/10000/122F32C7-DD31-1143-96EB-38BC1B7BA376.root',
 #                                         '/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/10000/3B37145C-6D2E-1B48-B302-8FD416F69731.root',
 #                                         '/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/10000/4A0828F7-EE50-4240-A7E2-6D1A6E5CA568.root',
@@ -142,9 +142,20 @@ process.source = cms.Source("PoolSource",
 #                                              'file:store-mc-RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000/206968F5-D0C6-E811-8341-001A649D4DF1.root',
 #                                              'file:store-mc-RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000/28324326-D1C6-E811-99BD-001A649D4F95.root',
 #                                              'file:store-mc-RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000/340A78A8-EAC6-E811-A0C1-001A649D48A1.root',
-                                               #'/store/data/Run2018A/DoubleMuon/MINIAOD/12Nov2019_UL2018-v2/100000/0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root', #file dataset=/DoubleMuon/Run2018A-12Nov2019_UL2018-v2/MINIAOD
+                                               #'/store/data/Run2018A/DoubleMuon/MINIAOD/12Nov2019_UL2018-v2/100000/0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root', #file dataset=/DoubleMuon/Run2018A-12Nov2019_UL2018-v2/MINIAOD #Call this 2018 File 1
                                               # 'file:0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root',
-                                   
+                                             # 'file:07FCA6B1-25BC-1943-BEB8-F4E367BF4AE7_SPS.root',
+                                             #'file:DPS_MC_2018_ZplusY_0620900D-ABE0-A349-A5EA-E8CF5A601E37.root',
+                                             #'file:ZplusY_DPS_2018_2623546A-B8A5-7948-9881-83F4EC856E1F.root',
+                                             #'file:DPS_ZplusY_2017_20678EC7-FDB1-364D-A443-419F1189A2CE.root',
+                                             #'file:ZplusY_DPS_2016APV_4C3553DF-F7CF-E446-979D-A476C93410DC.root',
+                                            # 'file:ZplusY_DPS_2016APV_5519AF91-6961-F94A-860A-70377FB86E78.root',
+                                            #'file:ZplusY_2016APV_DPS_F2658DCF-4353-8E4A-A928-0A78CE030269.root',
+                                            #'file:ZplusY_DPS_2016_2FDBD31E-7BAF-164D-9E9D-5E09114FE20A.root',
+                                             'file:DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA.root',
+                                             #'file:ZplusY_2017_DPS_83417361-C44F-9F4E-969F-F4B22156E170.root',
+                                             #'file:ZplusY_2016APV_B3E02D05-E927-C141-A2A1-6AAD3105EEB9.root',
+                                             #'file:ZplusY_DPS_2016_F0292CE5-8576-5444-B5A9-B65EA31AEECC.root',
                                     ),
    duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
@@ -162,7 +173,8 @@ input=cms.untracked.int32(-1)
 )
 
 process.TFileService = cms.Service("TFileService",
-   fileName = cms.string("ZYto4Mu_Zto4Mu_pTCut3_Bjorn_24August2022_MC_Brux_inputFileIs_MC_DPS_2018_YZ_04A4F969-2F02-F24D-9BA7-2FAB6D708CB6_wildCard_testCodeFromSam_updateFromMarko_clearTempVecAdded_notPushingBackTriggerFilterInfo.root")
+   #fileName = cms.string("ZYto4Mu_Zto4Mu_pTCut3_Bjorn_20Dec2022_Brux_inputFileIs_DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA_wildCard_testCodeFromSam_updateFromMarko_clearTempVecAdded_notPushingBackTriggerFilterInfo.root")
+    fileName = cms.string("flatFile.root")
 )
 
 #process.maxEvents.input = 1000
