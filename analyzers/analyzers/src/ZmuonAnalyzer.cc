@@ -3832,7 +3832,10 @@ ZmuonAnalyzer::endLuminosityBlock(const edm::LuminosityBlock& iLumi, const edm::
      iLumi.getByToken(nFilteredToken_, nFilteredHandle);
       int nFilteredInThisLS = nFilteredHandle->value;
       
-      histContainer_["nEventsFilteredCounter"]->Fill(0); //the number of entries at 0 give us the number of LS in total that passed the filter
+      if (nFilteredInThisLS !=0) { //if nFilteredInThisLS = 0, it means the LS did not pass the filter
+      histContainer_["nEventsFilteredCounter"]->Fill(0);
+      }
+       //the number of entries at 0 give us the number of LS in total that passed the filter
       histContainer_["nEventsFilteredCounter"]->Fill(1, nFilteredInThisLS); //the number of entries at 1 will give us the total number of events that passed the filter 
     
     // Total number of events is the sum of the events in each of these luminosity blocks 
