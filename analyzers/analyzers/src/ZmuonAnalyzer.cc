@@ -419,6 +419,11 @@ private:
    std::vector<double> big4MuVtx_xpos, big4MuVtx_ypos, big4MuVtx_zpos;
    std::vector<double> big4MuVtx_xposError, big4MuVtx_yposError, big4MuVtx_zposError;
    
+   std::vector<int> numZplusYCandInEvent;
+   
+
+   
+   //Begin MC variables section, these variables fill the treemc 
    std::vector<int> eventHasZUpsiNTo4Mu_Count;
    std::vector<int> eventDoesNotHaveZUpsiNTo4Mu_Count;
    
@@ -438,6 +443,11 @@ private:
    std::vector<bool> truth_muHasUpsi1FromUpsi2Ancestor, truth_muHasUpsi1FromUpsi3Ancestor;
    std::vector<bool> truth_muHasUpsi2FromUpsi3Ancestor;
    std::vector<bool> truth_muHasUpsi1FromUpsi2FromUpsi3Ancestor;
+   
+   std::vector<bool> truth_eventHasZUpsiNTo4Mu;
+   std::vector<bool> truth_eventHasZUpsi1To4Mu, truth_eventHasZUpsi2To4Mu, truth_eventHasZUpsi3To4Mu;
+   
+   std::vector<int> denominator_ZplusY;
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -700,6 +710,8 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    tree->Branch("big4MuVtx_yposError", &big4MuVtx_yposError);
    tree->Branch("big4MuVtx_zposError", &big4MuVtx_zposError);
    
+   tree->Branch("numZplusYCandInEvent", &numZplusYCandInEvent);
+   
    //trigger matching variable
    tree->Branch("quadHasHowManyTrigMatches", &quadHasHowManyTrigMatches);
    
@@ -843,6 +855,13 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("truth_muHasUpsi1FromUpsi3Ancestor", &truth_muHasUpsi1FromUpsi3Ancestor);
    treemc->Branch("truth_muHasUpsi2FromUpsi3Ancestor", &truth_muHasUpsi2FromUpsi3Ancestor);
    treemc->Branch("truth_muHasUpsi1FromUpsi2FromUpsi3Ancestor", &truth_muHasUpsi1FromUpsi2FromUpsi3Ancestor);
+   
+   treemc->Branch("truth_eventHasZUpsiNTo4Mu", &truth_eventHasZUpsiNTo4Mu);
+   treemc->Branch("truth_eventHasZUpsi1To4Mu", &truth_eventHasZUpsi1To4Mu);
+   treemc->Branch("truth_eventHasZUpsi2To4Mu", &truth_eventHasZUpsi2To4Mu);
+   treemc->Branch("truth_eventHasZUpsi3To4Mu", &truth_eventHasZUpsi3To4Mu);
+   
+   treemc->Branch("denominator_ZplusY", &denominator_ZplusY);
 }
 
 void ZmuonAnalyzer::beginRun(const edm::Run& run,const edm::EventSetup& setup)
@@ -1080,6 +1099,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    big4MuVtx_yposError.clear();
    big4MuVtx_zposError.clear();
    
+   numZplusYCandInEvent.clear();
+   
    lepton1_validHits.clear(); lepton2_validHits.clear(); lepton3_validHits.clear(); lepton4_validHits.clear();
 
    truth_Zmuon_pt.clear(); 
@@ -1201,6 +1222,16 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    truth_muHasUpsi1FromUpsi3Ancestor.clear();
    truth_muHasUpsi2FromUpsi3Ancestor.clear();
    truth_muHasUpsi1FromUpsi2FromUpsi3Ancestor.clear();
+   
+   truth_eventHasZUpsiNTo4Mu.clear();
+   truth_eventHasZUpsi1To4Mu.clear();
+   truth_eventHasZUpsi2To4Mu.clear();
+   truth_eventHasZUpsi3To4Mu.clear();
+   
+   denominator_ZplusY.clear();
+   
+   int numZplusYCandInEvent_Count = 0;
+
    
  //  TrkWeightsRecoVtxTrks.clear();
    
@@ -1748,6 +1779,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                    
                    if (match_12_34_56 || match_13_24_56 || match_14_23_56){
                      isZplusY = true;
+                     numZplusYCandInEvent_Count++;
                    }
                 
                 
@@ -3181,6 +3213,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
      if (save_event){
 //       std::cout << "save_event for the data stuff: " << save_event << std::endl;
         save_event_count.push_back(1);
+        numZplusYCandInEvent.push_back(numZplusYCandInEvent_Count);
        tree->Fill();
       }
    }
@@ -3785,10 +3818,14 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 
     }
     
+    truth_eventHasZUpsiNTo4Mu.push_back(eventHasZUpsiNTo4Mu);
+    
     if (eventHasZToMuMu && eventHasUpsi1ToMuMu){
         eventHasZUpsi1To4Mu = true;
         eventHasZUpsi1To4Mu_Count.push_back(eventHasZUpsi1To4Mu);
     }
+    
+    truth_eventHasZUpsi1To4Mu.push_back(eventHasZUpsi1To4Mu);
     
     
     if (eventHasZToMuMu && eventHasUpsi2ToMuMu){
@@ -3796,16 +3833,25 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         eventHasZUpsi2To4Mu_Count.push_back(eventHasZUpsi2To4Mu);
      }
      
+     truth_eventHasZUpsi2To4Mu.push_back(eventHasZUpsi2To4Mu);
+     
      if (eventHasZToMuMu && eventHasUpsi3ToMuMu){
         eventHasZUpsi3To4Mu = true;
         eventHasZUpsi3To4Mu_Count.push_back(eventHasZUpsi3To4Mu); 
      }
-    
+    truth_eventHasZUpsi3To4Mu.push_back(eventHasZUpsi3To4Mu);
     
     if (!(eventHasZToMuMu && eventHasUpsiNToMuMu)){
      // std::cout << "eventHasZUpsiNTo4Mu: " << eventHasZUpsiNTo4Mu << std::endl;
       eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
+    
+   if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
+     std::cout << "SUCCESS" << std::endl;
+     std::cout << "numZplusYCandInEvent_Count:  " << numZplusYCandInEvent_Count << std::endl;
+    denominator_ZplusY.push_back(1); 
+    
+   } 
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
