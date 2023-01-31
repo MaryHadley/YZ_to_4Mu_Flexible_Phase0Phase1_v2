@@ -323,6 +323,10 @@ private:
    std::vector<unsigned int> orbit_number;
    std::vector<unsigned int> bunch_crossing;
 //   std::vector<unsigned int> process_ID;
+
+   std::vector<unsigned int> event_number_of_event;
+   std::vector<unsigned int> run_number_of_event;
+   std::vector<unsigned int> lumi_section_of_event;
    
    std::vector<unsigned int> save_event_count;
 
@@ -332,8 +336,8 @@ private:
 
    std::vector<double> truth_Zmuon_pt, truth_Zmuon_eta, truth_Zmuon_phi;
    std::vector<double> truth_Z_pt, truth_Z_eta, truth_Z_phi, truth_Z_mass, truth_Z_pdgid;
-   std::vector<double> mc_event_number;
-   std::vector<double> mc_run_number;
+   std::vector<unsigned int> mc_event_number;
+   std::vector<unsigned int> mc_run_number;
    std::vector<unsigned int> mc_lumi_section;
 
    std::vector<double> truth_Upsimuon_pt, truth_Upsimuon_eta, truth_Upsimuon_phi;
@@ -436,6 +440,9 @@ private:
    std::vector<int> eventHasZUpsi2To4Mu_Count;
    std::vector<int> eventHasZUpsi3To4Mu_Count;
    
+   std::vector<int> eventHasZUpsiNTo4MuButNoCandFound_Count;
+   std::vector<int> eventHasZUpsiNTo4MuCandFound_Count;
+   
    //Truth all muons section
    std::vector<double> truth_muon_pt, truth_muon_eta, truth_muon_phi;
    std::vector<bool> truth_muHasZAncestor, truth_muHasUpsi1Ancestor, truth_muHasChib0_1PAncestor, truth_muHasChib1_1PAncestor, truth_muHasChib2_1PAncestor;
@@ -447,7 +454,7 @@ private:
    std::vector<bool> truth_eventHasZUpsiNTo4Mu;
    std::vector<bool> truth_eventHasZUpsi1To4Mu, truth_eventHasZUpsi2To4Mu, truth_eventHasZUpsi3To4Mu;
    
-   std::vector<int> denominator_ZplusY;
+   std::vector<bool> denominator_ZplusY;
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -525,6 +532,10 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    tree->Branch("bunch_crossing", &bunch_crossing);
    tree->Branch("orbit_number", &orbit_number);
 //   tree->Branch("process_ID", &process_ID);
+
+   tree->Branch("event_number_of_event", &event_number_of_event);
+   tree->Branch("run_number_of_event", &run_number_of_event);
+   tree->Branch("lumi_section_of_event", &lumi_section_of_event);
    
    tree->Branch("rho", &rho);
    
@@ -840,6 +851,9 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("eventHasZUpsi2To4Mu_Count", &eventHasZUpsi2To4Mu_Count);
    treemc->Branch("eventHasZUpsi3To4Mu_Count", &eventHasZUpsi3To4Mu_Count);
    
+   treemc->Branch("eventHasZUpsiNTo4MuButNoCandFound_Count", &eventHasZUpsiNTo4MuButNoCandFound_Count);
+   treemc->Branch("eventHasZUpsiNTo4MuCandFound_Count", &eventHasZUpsiNTo4MuCandFound_Count);
+   
    //truth all muons section
    treemc->Branch("truth_muon_pt", &truth_muon_pt);
    treemc->Branch("truth_muon_eta", &truth_muon_eta);
@@ -1007,6 +1021,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    PVz.clear();
 
    run_number.clear(); event_number.clear(); lumi_section.clear(); bunch_crossing.clear(); orbit_number.clear();
+   event_number_of_event.clear(); run_number_of_event.clear(); lumi_section_of_event.clear();
    
    quadHasHowManyTrigMatches.clear(); // branch passes a basic sanity check when  filled  this way
    quadComesFromEvtWithThisManyMu.clear();
@@ -1207,6 +1222,9 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    eventHasZUpsi1To4Mu_Count.clear();
    eventHasZUpsi2To4Mu_Count.clear();
    eventHasZUpsi3To4Mu_Count.clear();
+   
+   eventHasZUpsiNTo4MuButNoCandFound_Count.clear();
+   eventHasZUpsiNTo4MuCandFound_Count.clear();
    
    truth_muon_pt.clear();
    truth_muon_eta.clear();
@@ -3213,6 +3231,9 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
      if (save_event){
 //       std::cout << "save_event for the data stuff: " << save_event << std::endl;
         save_event_count.push_back(1);
+        event_number_of_event.push_back(iEvent.id().event());
+        run_number_of_event.push_back(iEvent.run());
+        lumi_section_of_event.push_back(iEvent.luminosityBlock());
         numZplusYCandInEvent.push_back(numZplusYCandInEvent_Count);
        tree->Fill();
       }
@@ -3298,6 +3319,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     bool eventHasZUpsi3To4Mu = false;
 //    std::cout << "eventHasZUpsi3To4Mu initially is: " << eventHasZUpsi3To4Mu << std::endl; 
     
+    bool eventInDenominatorZplusY = false;
     
     
 //    std::cout << "upsi_pt_found.size() initially:  " << upsi_pt_found.size() <<std::endl; //Mary added for testing 
@@ -3846,12 +3868,24 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
     
-   if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
-     std::cout << "SUCCESS" << std::endl;
-     std::cout << "numZplusYCandInEvent_Count:  " << numZplusYCandInEvent_Count << std::endl;
-    denominator_ZplusY.push_back(1); 
+   if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count == 1) {
+    // std::cout << "SUCCESS" << std::endl;
+   //  std::cout << "numZplusYCandInEvent_Count:  " << numZplusYCandInEvent_Count << std::endl;
+  //  denominator_ZplusY.push_back(1); 
+      eventInDenominatorZplusY = true;
     
    } 
+    denominator_ZplusY.push_back(eventInDenominatorZplusY);
+    
+    if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count == 0) {
+      std::cout << "eventHasZUpsiNTo4Mu but no Z + Y candidate reconstructed" << std::endl;
+      eventHasZUpsiNTo4MuButNoCandFound_Count.push_back(1);
+    }
+    
+    if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
+      std::cout << "eventHasZUpsiNTo4Mu AND AT LEAST 1 Z + Y candidate reconstructed" << std::endl;
+      eventHasZUpsiNTo4MuCandFound_Count.push_back(1);
+    }
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
