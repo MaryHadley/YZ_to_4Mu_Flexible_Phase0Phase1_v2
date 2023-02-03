@@ -3868,11 +3868,12 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       eventDoesNotHaveZUpsiNTo4Mu_Count.push_back(1);
     }
     
-   if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count == 1) {
+   if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
     // std::cout << "SUCCESS" << std::endl;
    //  std::cout << "numZplusYCandInEvent_Count:  " << numZplusYCandInEvent_Count << std::endl;
   //  denominator_ZplusY.push_back(1); 
       eventInDenominatorZplusY = true;
+      eventHasZUpsiNTo4MuCandFound_Count.push_back(1);
     
    } 
     denominator_ZplusY.push_back(eventInDenominatorZplusY);
@@ -3882,10 +3883,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       eventHasZUpsiNTo4MuButNoCandFound_Count.push_back(1);
     }
     
-    if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
-      std::cout << "eventHasZUpsiNTo4Mu AND AT LEAST 1 Z + Y candidate reconstructed" << std::endl;
-      eventHasZUpsiNTo4MuCandFound_Count.push_back(1);
-    }
+   //  if (eventHasZUpsiNTo4Mu && numZplusYCandInEvent_Count > 0) {
+//       std::cout << "eventHasZUpsiNTo4Mu AND AT LEAST 1 Z + Y candidate reconstructed" << std::endl;
+//       eventHasZUpsiNTo4MuCandFound_Count.push_back(1);
+//     }
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
