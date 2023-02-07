@@ -167,6 +167,7 @@ process.maxEvents = cms.untracked.PSet(
 input=cms.untracked.int32(-1)
 #input=cms.untracked.int32(1000)
 #input = cms.untracked.int32(10)
+#input = cms.untracked.int32(2)
 #input = cms.untracked.int32(50)
 #input = cms.untracked.int32(100)
   #  input = cms.untracked.int32(3000) #for crab test, just look at 1000 events
@@ -175,7 +176,7 @@ input=cms.untracked.int32(-1)
 
 process.TFileService = cms.Service("TFileService",
    #fileName = cms.string("ZYto4Mu_Zto4Mu_pTCut3_Bjorn_20Dec2022_Brux_inputFileIs_DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA_wildCard_testCodeFromSam_updateFromMarko_clearTempVecAdded_notPushingBackTriggerFilterInfo.root")
-    fileName = cms.string("flatFile_2018.root")
+    fileName = cms.string("flatFile_DPS_2018.root")
 )
 
 #process.maxEvents.input = 1000
