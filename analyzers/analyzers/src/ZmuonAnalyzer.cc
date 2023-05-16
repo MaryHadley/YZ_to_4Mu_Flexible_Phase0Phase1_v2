@@ -84,6 +84,8 @@
 #include <vector>
 #include <regex>
 
+//new include needed to access the originalXWGTUP variable, thanks to Matti Kortelainen for showing me how to do this
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
 
 //the functions which actually match the trigger objects and see if it passes
@@ -186,6 +188,8 @@ private:
    edm::EDGetTokenT<edm::MergeableCounter> nTotalToken_; // need for EventCountProducer
    edm::EDGetTokenT<edm::MergeableCounter> nFilteredToken_; //need for EventCountProducer
    
+   edm::EDGetTokenT<LHEEventProduct> lheEventProductToken_; //Needed to get at originalXWGTUP
+   
    std::unordered_map<std::string,TH1*> histContainer_; //for counters, PU, Cutflow, trigger DR, etc
    
    std::unordered_map<std::string,TH2*> histContainer2_;
@@ -217,6 +221,8 @@ private:
 
    
    bool isMC;
+   
+   bool isSPS;
    
    //bool use2018Triggers, use2017Triggers, use2016Triggers;
    
@@ -456,6 +462,8 @@ private:
    
    std::vector<bool> denominator_ZplusY;
    
+   std::vector<double> SPS_LHE_Weight;
+   
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
    
@@ -480,6 +488,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    triggerObjects_ = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles"));
    pfToken_ = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfCands"));
+   lheEventProductToken_ = consumes<LHEEventProduct>(edm::InputTag("source", "", "LHEFile")); //Needed to get at originalXWGTUP
    
    //Stuff from Sam to get trigger code to work
    datasets_ = iConfig.getParameter<std::vector<std::string> >("datasets");
@@ -505,7 +514,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    
    isMC = iConfig.getParameter<bool>("isMC"); // ***** MC *** gets read in from ZmuonAnalyzer_cfg!
 //   triggerYear = iConfig.getParameter<int>("triggerYear");
-   
+   isSPS = iConfig.getParameter<bool>("isSPS"); 
    
    edm::Service<TFileService> fs;
    tree = fs->make<TTree>("tree", "tree");
@@ -876,6 +885,8 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    treemc->Branch("truth_eventHasZUpsi3To4Mu", &truth_eventHasZUpsi3To4Mu);
    
    treemc->Branch("denominator_ZplusY", &denominator_ZplusY);
+   treemc->Branch("SPS_LHE_Weight", &SPS_LHE_Weight);
+
 }
 
 void ZmuonAnalyzer::beginRun(const edm::Run& run,const edm::EventSetup& setup)
@@ -909,6 +920,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 
    edm::ESHandle<TransientTrackBuilder> builder;
    iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", builder);
+   
+   LHEEventProduct const& lheEvent = iEvent.get(lheEventProductToken_); //Needed to get at originalXWGTUP variable
 
 //Rho, the median energy desnity //
 
@@ -1247,6 +1260,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    truth_eventHasZUpsi3To4Mu.clear();
    
    denominator_ZplusY.clear();
+   SPS_LHE_Weight.clear();
    
    int numZplusYCandInEvent_Count = 0;
 
@@ -3902,6 +3916,15 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 //       std::cout << "eventHasZUpsiNTo4Mu AND AT LEAST 1 Z + Y candidate reconstructed" << std::endl;
 //       eventHasZUpsiNTo4MuCandFound_Count.push_back(1);
 //     }
+ 
+ 
+    if (isSPS){
+      std::cout << "Entering SPS block" << std::endl;
+      std::cout << "isSPS is:  " << isSPS << std::endl;
+      
+      std::cout << "lheEvent.originalXWGTUP():  " << lheEvent.originalXWGTUP() << std::endl;
+    }  
+    
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;

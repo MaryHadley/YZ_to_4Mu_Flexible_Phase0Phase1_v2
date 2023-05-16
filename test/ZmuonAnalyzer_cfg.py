@@ -31,6 +31,15 @@ options.register("isMC",
 # 
 # )
 
+options.register("isSPS",
+    False,
+    VarParsing.VarParsing.multiplicity.singleton,
+    VarParsing.VarParsing.varType.bool,
+    "Is this single parton scattering (SPS) MC? Make sure you are running on MC! Defaults to False." 
+)
+
+
+
 
 # This needs to go here, after we have defined all the options!
 options.parseArguments()
@@ -51,6 +60,7 @@ process.ZmuonAnalyzer = cms.EDAnalyzer("ZmuonAnalyzer",
    datasets = cms.vstring("SingleMuon", "DoubleMuon"),
    stageL1Trigger = cms.uint32(2),
    isMC   = cms.bool(options.isMC),
+   isSPS = cms.bool(options.isSPS),
  #  triggerYear = cms.int32(options.triggerYear),
 )
 
@@ -152,13 +162,14 @@ process.source = cms.Source("PoolSource",
                                             # 'file:ZplusY_DPS_2016APV_5519AF91-6961-F94A-860A-70377FB86E78.root',
                                             #'file:ZplusY_2016APV_DPS_F2658DCF-4353-8E4A-A928-0A78CE030269.root',
                                             #'file:ZplusY_DPS_2016_2FDBD31E-7BAF-164D-9E9D-5E09114FE20A.root',
-                                             'file:DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA.root',
+                                            # 'file:DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA.root',
                                             # 'file:ZplusY_2017_DPS_83417361-C44F-9F4E-969F-F4B22156E170.root',
                                              #'file:ZplusY_2016APV_B3E02D05-E927-C141-A2A1-6AAD3105EEB9.root',
                                              #'file:ZplusY_DPS_2016_F0292CE5-8576-5444-B5A9-B65EA31AEECC.root',
                                               #'file:309AEB14-71FA-CE4B-8EF4-C6741596D4C7.root',
                                               #'file:8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root', #This is the file from here: /store/mc/RunIISummer20UL16MiniAOD/DPS_ToYZ_YToMuMu_ZToMuMu_TuneCP5_13TeV-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_v13-v1/280000/8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root 
                                               #It is job 329 from 2016 YZ (nonAPV)
+                                              'file:SPS_Y1SZ_2018_113B04AD-7796-E640-A9A5-9253BC573DE2.root',
                                     ),
    duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
@@ -179,7 +190,7 @@ input=cms.untracked.int32(-1)
 
 process.TFileService = cms.Service("TFileService",
    #fileName = cms.string("ZYto4Mu_Zto4Mu_pTCut3_Bjorn_20Dec2022_Brux_inputFileIs_DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA_wildCard_testCodeFromSam_updateFromMarko_clearTempVecAdded_notPushingBackTriggerFilterInfo.root")
-    fileName = cms.string("flatFile_DPS_2018.root")
+    fileName = cms.string("flatFile_SPS_2018_test.root")
 )
 
 #process.maxEvents.input = 1000
