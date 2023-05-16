@@ -62,7 +62,7 @@ if options.applyZmuonFilter:
      objects = cms.InputTag("slimmedPatTrigger"),
 #     genParticles = cms.InputTag("prunedGenParticles"), #not needed here
 #     pfCands = cms.InputTag("packedPFCandidates")  #not needed here
-     pTCut = cms.double(2.),
+     pTCut = cms.double(0.5), #was 2.
      etaCut = cms.double(3.),
      invMass4MuCut_low = cms.double(50), #usually 50
     #invMass4MuCut_high = cms.double(500.), #this is essentially not doing anything
@@ -145,7 +145,7 @@ process.source = cms.Source("PoolSource",
                                                #'/store/data/Run2018A/DoubleMuon/MINIAOD/12Nov2019_UL2018-v2/100000/0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root', #file dataset=/DoubleMuon/Run2018A-12Nov2019_UL2018-v2/MINIAOD #Call this 2018 File 1
                                               # 'file:0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root',
                                              # 'file:07FCA6B1-25BC-1943-BEB8-F4E367BF4AE7_SPS.root',
-                                             #'file:DPS_MC_2018_ZplusY_0620900D-ABE0-A349-A5EA-E8CF5A601E37.root',
+                                           #  'file:DPS_MC_2018_ZplusY_0620900D-ABE0-A349-A5EA-E8CF5A601E37.root',
                                              #'file:ZplusY_DPS_2018_2623546A-B8A5-7948-9881-83F4EC856E1F.root',
                                              #'file:DPS_ZplusY_2017_20678EC7-FDB1-364D-A443-419F1189A2CE.root',
                                              #'file:ZplusY_DPS_2016APV_4C3553DF-F7CF-E446-979D-A476C93410DC.root',
@@ -153,9 +153,12 @@ process.source = cms.Source("PoolSource",
                                             #'file:ZplusY_2016APV_DPS_F2658DCF-4353-8E4A-A928-0A78CE030269.root',
                                             #'file:ZplusY_DPS_2016_2FDBD31E-7BAF-164D-9E9D-5E09114FE20A.root',
                                              'file:DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA.root',
-                                             #'file:ZplusY_2017_DPS_83417361-C44F-9F4E-969F-F4B22156E170.root',
+                                            # 'file:ZplusY_2017_DPS_83417361-C44F-9F4E-969F-F4B22156E170.root',
                                              #'file:ZplusY_2016APV_B3E02D05-E927-C141-A2A1-6AAD3105EEB9.root',
                                              #'file:ZplusY_DPS_2016_F0292CE5-8576-5444-B5A9-B65EA31AEECC.root',
+                                              #'file:309AEB14-71FA-CE4B-8EF4-C6741596D4C7.root',
+                                              #'file:8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root', #This is the file from here: /store/mc/RunIISummer20UL16MiniAOD/DPS_ToYZ_YToMuMu_ZToMuMu_TuneCP5_13TeV-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_v13-v1/280000/8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root 
+                                              #It is job 329 from 2016 YZ (nonAPV)
                                     ),
    duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )

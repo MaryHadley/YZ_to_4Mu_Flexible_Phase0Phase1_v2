@@ -1620,7 +1620,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
           for (auto iM4 = iM3+1; iM4 != muons->end(); ++iM4) {
              
                  
-                double pT_cut = 3; // we cut looser here and then harder (pT > 4) in phase 2 code
+               // double pT_cut = 3; // we cut looser here and then harder (pT > 4) in phase 2 code
+                double pT_cut = 1; //Go very loose here so that we are as inclusive as possible at this stage
                 histContainer_["CutFlow"]->Fill(1); //how many candidates we have 
    //             std::cout << " <<<<<<<<<<<<< ------------------------- entered " << std::endl;
     

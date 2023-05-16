@@ -22,7 +22,7 @@ if __name__ == '__main__':
     
     #Common configuration
     
-    config.General.workArea     = 'Zmuon_MC_DPS_2018UL'
+    config.General.workArea     = 'Zmuon_MC_DPS_2018UL_muPtCut1_take2'
     config.General.transferLogs = False
 #    config.JobType.maxMemoryMB = 5000 #Let's try the default to start and see if it works 
 #    config.JobType.maxJobRuntimeMin = 2750 #Let's try the default to start and see if it works 
@@ -64,17 +64,17 @@ if __name__ == '__main__':
 #     p.join()
 
     # Z+Y DPS 2018UL
-    config.General.requestName = 'ZY_DPS_2018UL' 
+    config.General.requestName = 'ZY_DPS_2018UL_muPtCut1_take2' 
     config.Data.inputDataset   = '/DPS_ToZY_ZToMuMu_YToMuMu_TuneCP5_13TeV-pythia8/RunIISummer20UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v1/MINIAODSIM' 
-    config.Data.outLFNDirBase  = '/store/user/mhadley/Zmuon_MC_DPS_2018UL_ZY'
+    config.Data.outLFNDirBase  = '/store/user/mhadley/Zmuon_MC_DPS_2018UL_ZY_muPtCut1_take2'
     p = Process(target=submit, args=(config,))
     p.start()
     p.join()
     
     # Y+Z DPS 2018UL
-    config.General.requestName = 'YZ_DPS_2018UL' 
+    config.General.requestName = 'YZ_DPS_2018UL_muPtCut1_take2' 
     config.Data.inputDataset   = '/DPS_ToYZ_YToMuMu_ZToMuMu_TuneCP5_13TeV-pythia8/RunIISummer20UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v1/MINIAODSIM' 
-    config.Data.outLFNDirBase  = '/store/user/mhadley/Zmuon_MC_DPS_2018UL_YZ'
+    config.Data.outLFNDirBase  = '/store/user/mhadley/Zmuon_MC_DPS_2018UL_YZ_muPtCut1_take2'
     p = Process(target=submit, args=(config,))
     p.start()
     p.join()
