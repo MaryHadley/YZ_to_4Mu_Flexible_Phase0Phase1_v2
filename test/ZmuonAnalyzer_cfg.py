@@ -153,7 +153,7 @@ process.source = cms.Source("PoolSource",
 #                                              'file:store-mc-RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000/28324326-D1C6-E811-99BD-001A649D4F95.root',
 #                                              'file:store-mc-RunIISummer16MiniAODv3-ZZTo4L_13TeV_powheg_pythia8-MINIAODSIM-PUMoriond17_94X_mcRun2_asymptotic_v3-v1-100000/340A78A8-EAC6-E811-A0C1-001A649D48A1.root',
                                                #'/store/data/Run2018A/DoubleMuon/MINIAOD/12Nov2019_UL2018-v2/100000/0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root', #file dataset=/DoubleMuon/Run2018A-12Nov2019_UL2018-v2/MINIAOD #Call this 2018 File 1
-                                              # 'file:0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root',
+                                               'file:0004C5E1-8BFE-4044-82CB-C0FC878D9C54.root',
                                              # 'file:07FCA6B1-25BC-1943-BEB8-F4E367BF4AE7_SPS.root',
                                            #  'file:DPS_MC_2018_ZplusY_0620900D-ABE0-A349-A5EA-E8CF5A601E37.root',
                                              #'file:ZplusY_DPS_2018_2623546A-B8A5-7948-9881-83F4EC856E1F.root',
@@ -169,7 +169,14 @@ process.source = cms.Source("PoolSource",
                                               #'file:309AEB14-71FA-CE4B-8EF4-C6741596D4C7.root',
                                               #'file:8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root', #This is the file from here: /store/mc/RunIISummer20UL16MiniAOD/DPS_ToYZ_YToMuMu_ZToMuMu_TuneCP5_13TeV-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_v13-v1/280000/8EDF7FE4-E99E-114F-844B-A4C4570F68D9.root 
                                               #It is job 329 from 2016 YZ (nonAPV)
-                                              'file:SPS_Y1SZ_2018_113B04AD-7796-E640-A9A5-9253BC573DE2.root',
+                                              #'file:SPS_Y1SZ_2018_113B04AD-7796-E640-A9A5-9253BC573DE2.root',
+                                              #'file:DPS_2016UL_APV_YZ_531790B0-E786-EC4A-843E-FB116EF6BC1A.root', #Job 97
+                                               # 'file:DPS_2016UL_APV_ZY_62C0CC1B-D5DF-DD46-8B20-8BD3262A5E0F.root', #Job 19
+                                               #'file:DPS_2016UL_APV_ZY_380BF754-5C6A-3C41-B7F2-83456595FAFD.root', #Job 217
+                                              # 'file:DPS_2016UL_APV_ZY_A3DCFD19-323A-EE4B-8056-77C114859EF5.root', #Job 237
+                                              #'file:DPS_2016UL_APV_ZY_F7DDE0EC-229A-E74C-8718-313F565E2FA2.root', #Job 251
+                                   
+                                   
                                     ),
    duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
@@ -190,7 +197,7 @@ input=cms.untracked.int32(-1)
 
 process.TFileService = cms.Service("TFileService",
    #fileName = cms.string("ZYto4Mu_Zto4Mu_pTCut3_Bjorn_20Dec2022_Brux_inputFileIs_DPS_ZplusY_2018_442B8D2F-65E3-1C4C-8876-048C9F5D88EA_wildCard_testCodeFromSam_updateFromMarko_clearTempVecAdded_notPushingBackTriggerFilterInfo.root")
-    fileName = cms.string("flatFile_SPS_2018_test.root")
+    fileName = cms.string("flatFile_Data2018_test.root")
 )
 
 #process.maxEvents.input = 1000
@@ -233,9 +240,9 @@ process.load('Configuration.StandardSequences.Reconstruction_cff')
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_data') #data, all 3 years
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_data') #data, all 3 years
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc_pre_vfp') # 2016 pre VFP change MC
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc') #2016 post VFP change MC
 #process.GlobalTag = GlobalTag(process.GlobalTag, '106X_mc2017_realistic_v8') # 2017 MC
-process.GlobalTag = GlobalTag(process.GlobalTag, '106X_upgrade2018_realistic_v15_L1v1') #2018 MC
+#process.GlobalTag = GlobalTag(process.GlobalTag, '106X_upgrade2018_realistic_v15_L1v1') #2018 MC
 print "GlobalTag = ", str(process.GlobalTag.globaltag).split("'")[1]

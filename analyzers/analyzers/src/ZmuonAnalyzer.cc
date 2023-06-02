@@ -188,7 +188,7 @@ private:
    edm::EDGetTokenT<edm::MergeableCounter> nTotalToken_; // need for EventCountProducer
    edm::EDGetTokenT<edm::MergeableCounter> nFilteredToken_; //need for EventCountProducer
    
-   edm::EDGetTokenT<LHEEventProduct> lheEventProductToken_; //Needed to get at originalXWGTUP
+   edm::EDGetTokenT<LHEEventProduct> lheEventProductToken_; //Needed to get at originalXWGTUP //Matti Kortelainen says it is fine to leave this as is even when isSPS is false
    
    std::unordered_map<std::string,TH1*> histContainer_; //for counters, PU, Cutflow, trigger DR, etc
    
@@ -223,6 +223,8 @@ private:
    bool isMC;
    
    bool isSPS;
+   
+   double originalXWGTUP = -99.; //Dummy value as suggested by Matti
    
    //bool use2018Triggers, use2017Triggers, use2016Triggers;
    
@@ -488,7 +490,11 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    triggerObjects_ = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles"));
    pfToken_ = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfCands"));
-   lheEventProductToken_ = consumes<LHEEventProduct>(edm::InputTag("source", "", "LHEFile")); //Needed to get at originalXWGTUP
+   
+   isSPS = iConfig.getParameter<bool>("isSPS");
+   if (isSPS){
+     lheEventProductToken_ = consumes<LHEEventProduct>(edm::InputTag("source", "", "LHEFile"));
+    } //Needed to get at originalXWGTUP
    
    //Stuff from Sam to get trigger code to work
    datasets_ = iConfig.getParameter<std::vector<std::string> >("datasets");
@@ -514,7 +520,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    
    isMC = iConfig.getParameter<bool>("isMC"); // ***** MC *** gets read in from ZmuonAnalyzer_cfg!
 //   triggerYear = iConfig.getParameter<int>("triggerYear");
-   isSPS = iConfig.getParameter<bool>("isSPS"); 
+//   isSPS = iConfig.getParameter<bool>("isSPS"); 
    
    edm::Service<TFileService> fs;
    tree = fs->make<TTree>("tree", "tree");
@@ -921,8 +927,10 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    edm::ESHandle<TransientTrackBuilder> builder;
    iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", builder);
    
-   LHEEventProduct const& lheEvent = iEvent.get(lheEventProductToken_); //Needed to get at originalXWGTUP variable
-
+   if (isSPS){
+     LHEEventProduct const& lheEvent = iEvent.get(lheEventProductToken_); //Needed to get at originalXWGTUP variable
+     originalXWGTUP = lheEvent.originalXWGTUP();
+   }
 //Rho, the median energy desnity //
 
  //  edm::Handle< double > rhoH;
@@ -3922,7 +3930,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       std::cout << "Entering SPS block" << std::endl;
       std::cout << "isSPS is:  " << isSPS << std::endl;
       
-      std::cout << "lheEvent.originalXWGTUP():  " << lheEvent.originalXWGTUP() << std::endl;
+     // std::cout << "lheEvent.originalXWGTUP():  " << lheEvent.originalXWGTUP() << std::endl;
+      std::cout << "originalXWGTUP:  " << originalXWGTUP << std::endl;
     }  
     
     
