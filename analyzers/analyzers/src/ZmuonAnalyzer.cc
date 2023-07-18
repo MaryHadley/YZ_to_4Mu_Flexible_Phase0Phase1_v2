@@ -1642,8 +1642,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
           for (auto iM4 = iM3+1; iM4 != muons->end(); ++iM4) {
              
                  
-               // double pT_cut = 3; // we cut looser here and then harder (pT > 4) in phase 2 code
-                double pT_cut = 1; //Go very loose here so that we are as inclusive as possible at this stage
+                double pT_cut = 3;// go back to 3 for test with CRAB 17 June 2023 //go back to 3 for test 2 June 2023 // we cut looser here and then harder (pT > 4) in phase 2 code
+                 //double pT_cut = 1; //Go very loose here so that we are as inclusive as possible at this stage
                 histContainer_["CutFlow"]->Fill(1); //how many candidates we have 
    //             std::cout << " <<<<<<<<<<<<< ------------------------- entered " << std::endl;
     
@@ -3934,6 +3934,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
       std::cout << "originalXWGTUP:  " << originalXWGTUP << std::endl;
     }  
     
+    SPS_LHE_Weight.push_back(originalXWGTUP);
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
