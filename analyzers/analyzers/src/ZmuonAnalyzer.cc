@@ -226,6 +226,8 @@ private:
    
    double originalXWGTUP = -99.; //Dummy value as suggested by Matti
    
+   double sps_subprocess_xsec = -99.; //Dummy value, will remain dummy in the DPS case
+   
    //bool use2018Triggers, use2017Triggers, use2016Triggers;
    
 //   int triggerYear;
@@ -465,6 +467,7 @@ private:
    std::vector<bool> denominator_ZplusY;
    
    std::vector<double> SPS_LHE_Weight;
+   std::vector<double> SPS_Subprocess_XSec;
    
    //trigger matching variable
    std::vector<int> quadHasHowManyTrigMatches;
@@ -892,6 +895,7 @@ ZmuonAnalyzer::ZmuonAnalyzer(const edm::ParameterSet& iConfig):
    
    treemc->Branch("denominator_ZplusY", &denominator_ZplusY);
    treemc->Branch("SPS_LHE_Weight", &SPS_LHE_Weight);
+   treemc->Branch("SPS_Subprocess_XSec", &SPS_Subprocess_XSec);
 
 }
 
@@ -1269,6 +1273,7 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    
    denominator_ZplusY.clear();
    SPS_LHE_Weight.clear();
+   SPS_Subprocess_XSec.clear();
    
    int numZplusYCandInEvent_Count = 0;
 
@@ -1642,8 +1647,8 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
           for (auto iM4 = iM3+1; iM4 != muons->end(); ++iM4) {
              
                  
-                double pT_cut = 3;// go back to 3 for test with CRAB 17 June 2023 //go back to 3 for test 2 June 2023 // we cut looser here and then harder (pT > 4) in phase 2 code
-                 //double pT_cut = 1; //Go very loose here so that we are as inclusive as possible at this stage
+               // double pT_cut = 3;// go back to 3 for test with CRAB 17 June 2023 //go back to 3 for test 2 June 2023 // we cut looser here and then harder (pT > 4) in phase 2 code
+                 double pT_cut = 1; //Go very loose here so that we are as inclusive as possible at this stage
                 histContainer_["CutFlow"]->Fill(1); //how many candidates we have 
    //             std::cout << " <<<<<<<<<<<<< ------------------------- entered " << std::endl;
     
@@ -3927,14 +3932,150 @@ void ZmuonAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
  
  
     if (isSPS){
-      std::cout << "Entering SPS block" << std::endl;
-      std::cout << "isSPS is:  " << isSPS << std::endl;
+   //   std::cout << "Entering SPS block" << std::endl;
+  //    std::cout << "isSPS is:  " << isSPS << std::endl;
       
      // std::cout << "lheEvent.originalXWGTUP():  " << lheEvent.originalXWGTUP() << std::endl;
-      std::cout << "originalXWGTUP:  " << originalXWGTUP << std::endl;
-    }  
+   //   std::cout << "originalXWGTUP:  " << originalXWGTUP << std::endl;
+      
+      
+   //    std::cout << "originalXWGTUP * pow(10, 10):  " << originalXWGTUP * pow(10,10) << std::endl;
+      // if (abs((originalXWGTUP-(1.225267 * pow(10, -9))) < (4. *pow(10, -15)))){
+//        // std::cout << "SUCCESS" << std::endl;
+//         sps_subprocess_xsec = (1.4648797007 * pow(10, -4));
+//        // std::cout << "sps_subprocess_xsec:  " << sps_subprocess_xsec << std::endl;
+//       }
+//       
+//       if (abs((originalXWGTUP-(1.054015 * pow(10, -9))) < (6. *pow(10, -15)))){
+//         sps_subprocess_xsec = (1.4492604335 * pow(10, -4));
+//       }
+
+
+       //Y(1S) + Z subprocess xsecs
+      /////////////////////////////
+      
+       if (abs((originalXWGTUP * pow(10,10)) - 12.25267) < (1. * pow(10,-4))){
+         sps_subprocess_xsec = (1.4648797007 * pow(10, -4));
+       //  std::cout << "sps_subprocess_xsec:  " << sps_subprocess_xsec << std::endl;
+       } 
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 10.54015) < (1. * pow(10,-4))){
+         sps_subprocess_xsec = (1.4492604335 * pow(10,-4));
+       //  std::cout << "sps_subprocess_xsec:  " << sps_subprocess_xsec << std::endl;
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 12519.43) < (1. * pow(10,-1))){
+         sps_subprocess_xsec = (1.3057265840 * pow(10,  -1));
+       //  std::cout << "sps_subprocess_xsec:  " << sps_subprocess_xsec << std::endl;
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 42.7211) < (1. * pow(10,-4))){
+         sps_subprocess_xsec = (5.2205609975 * pow(10, -4));
+       //  std::cout << "sps_subprocess_xsec:  " << sps_subprocess_xsec << std::endl;
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 12.17758) < (1. * pow(10,-4))){
+         sps_subprocess_xsec = (1.4840213535 * pow(10, -4));
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 4.840706) < (1. * pow(10,-5))){
+         sps_subprocess_xsec = (6.0530604709 * pow(10, -5));
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 4.904272) < (1. * pow(10,-5))){
+         sps_subprocess_xsec = (6.0333826199 * pow(10, -5));
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 41.25369) < (1. * pow(10,-4))){
+         sps_subprocess_xsec = (5.3689618347 * pow(10,-4));
+       }
+       
+       if (abs((originalXWGTUP * pow(10,10)) - 12.16917) < (1. * pow(10,-4))){
+         sps_subprocess_xsec =  (1.4861602612 * pow(10,-4));
+       }
+       
+       //Y(2S) + Z subprocess xsecs
+      /////////////////////////////
+
+     if (abs((originalXWGTUP * pow(10,10)) - 1.493685) < (1. * pow(10,-5))){
+       sps_subprocess_xsec = (1.4004219894 * pow(10,-4));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 1.580794) < (1. * pow(10,-5))){
+       sps_subprocess_xsec = (1.3989729445 * pow(10,-4));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 2.017784) < (1. * pow(10,-5))){
+       sps_subprocess_xsec = (2.8093076380 * pow(10,-4));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 2.313838) < (1. * pow(10,-5))){
+       sps_subprocess_xsec = (2.8075005349 * pow (10,-4));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 1327.743) < (1. * pow(10,-2))){
+       sps_subprocess_xsec = (1.4350392672 * pow(10,-1));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 0.7341973) < (1. * pow(10,-6))){
+       sps_subprocess_xsec = (7.9349478172 * pow(10,-5));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 11.43892) < (1. * pow(10,-4))){
+       sps_subprocess_xsec = (1.2926622096 * pow(10, -3));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 9.302425) < (1. * pow(10,-5))){
+       sps_subprocess_xsec = (1.2921318930 * pow(10, -3));
+     }
+     
+     if (abs((originalXWGTUP * pow(10,10)) - 0.7181767) < (1. * pow(10,-6))){
+       sps_subprocess_xsec = (7.9194784650 * pow(10,-5));
+     }
+     
+     //Y(3S) + Z subprocess xsecs
+    /////////////////////////////
+    if (abs((originalXWGTUP * pow(10,10)) - 1.090213) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (9.3537646731 * pow(10,-5));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 1.291682) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (9.3448291523 * pow(10,-5));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10))-1.321817) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (1.8778177675 * pow(10, -4));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10))-1.540963) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (1.8758912629 * pow(10, -4));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 871.616) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (1.0194054199  * pow(10, -1));
+    } 
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 0.4810983) < (1. * pow(10,-6))){
+      sps_subprocess_xsec = (5.2926058401 * pow(10, -5));
+    } 
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 0.5162275) < (1. * pow(10,-6))){
+      sps_subprocess_xsec = (5.2866802839 * pow (10, -5));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 8.044575) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = ( 8.6581907549 * pow(10,-4));
+    }
+    
+    if (abs((originalXWGTUP * pow(10,10)) - 6.1821) < (1. * pow(10,-5))){
+      sps_subprocess_xsec = (8.6534441421 * pow(10,-4));
+    }
+  
+  
+  }  
     
     SPS_LHE_Weight.push_back(originalXWGTUP);
+    SPS_Subprocess_XSec.push_back(sps_subprocess_xsec);
     
     treemc->Fill();
  //   std::cout << "Z_to_fill_count is:" << Z_to_fill_count << std::endl;
